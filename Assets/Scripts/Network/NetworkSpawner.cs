@@ -2,16 +2,24 @@ using Fusion;
 using Fusion.Sockets;
 using Player.Input;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AYellowpaper.SerializedCollections;
 
 public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
-    [SerializeField] private NetworkPlayer playerPrefab;
-    private Dictionary<PlayerRef, NetworkPlayer> spawnedCharacters = new Dictionary<PlayerRef, NetworkPlayer>();
+    [SerializeField] 
+    private NetworkPlayer playerPrefab;
+    [Space]
+    [SerializedDictionary("ID","Player")] 
+    public SerializedDictionary<PlayerRef, NetworkPlayer> spawnedCharacters;
 
     CharacterInput characterInput;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
@@ -44,7 +52,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     #region Rest of Network Runner Callbacks
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { Debug.Log("OnPlayerLeft"); }
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { Debug.Log("OnShutdown"); }
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { Debug.Log("OnShutdown | " + shutdownReason); }
     public void OnConnectedToServer(NetworkRunner runner) { Debug.Log("OnConnectedToServer"); }
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { Debug.Log("OnDisconnectedFromServer"); }
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { Debug.Log("OnConnectRequest"); }
@@ -53,8 +61,8 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
-    public void OnSceneLoadDone(NetworkRunner runner) { }
-    public void OnSceneLoadStart(NetworkRunner runner) { }
+    public void OnSceneLoadDone(NetworkRunner runner) { Debug.Log("Scene Load Done"); }
+    public void OnSceneLoadStart(NetworkRunner runner) { Debug.Log("Scene Load Start"); }
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
