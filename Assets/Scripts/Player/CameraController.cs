@@ -27,7 +27,6 @@ public class CameraController : MonoBehaviour
 
     private const float _threshold = 0.01f;
 
-    private PlayerInput input;
     private SimpleKCC kcc;
     public GameObject CinemachineCameraTarget { get { return cinemachineCameraTarget; } }
     public CinemachineVirtualCamera CinemachineVirtualCamera { get { return cinemachineVirtualCamera; } }
@@ -35,7 +34,6 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        input = GetComponent<PlayerInput>();
         kcc = GetComponent<SimpleKCC>();
         CinemachineVirtualCamera Vcamera = Instantiate(cinemachineVirtualCamera);
         Vcamera.Follow = cinemachineCameraTarget.transform;
@@ -53,11 +51,11 @@ public class CameraController : MonoBehaviour
     private void CameraRotation()
     {
         // if there is an input and camera position is not fixed
-        if (input.LookDirection.sqrMagnitude >= _threshold && !LockCameraPosition)
-        {
-            cinemachineTargetYaw += input.LookDirection.y * MouseSensitivityX * (InvertX ? -1 : 1);
-            cinemachineTargetPitch += input.LookDirection.x * MouseSensitivityY * (InvertY ? -1 : 1);
-        }
+        //if (input.LookDirection.sqrMagnitude >= _threshold && !LockCameraPosition)
+        //{
+        //    cinemachineTargetYaw += input.LookDirection.y * MouseSensitivityX * (InvertX ? -1 : 1);
+        //    cinemachineTargetPitch += input.LookDirection.x * MouseSensitivityY * (InvertY ? -1 : 1);
+        //}
 
         // clamp our rotations so our values are limited 360 degrees
         cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);

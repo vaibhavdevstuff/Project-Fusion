@@ -1,6 +1,7 @@
 using Fusion;
 using Fusion.Addons.SimpleKCC;
 using UnityEngine;
+using Player.Input;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -11,8 +12,9 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float gravity = 30.0f;
 
     private SimpleKCC KCC;
-    private PlayerInput input;
     private Camera mainCamera;
+
+    NetworkInputData networkInput;
 
     [Networked]
     private Vector3 _moveVelocity { get; set; }
@@ -20,21 +22,25 @@ public class PlayerController : NetworkBehaviour
     void Awake()
     {
         KCC = GetComponent<SimpleKCC>();
-        input = GetComponent<PlayerInput>();
 
         mainCamera = Camera.main;
     }
 
     public override void FixedUpdateNetwork()
     {
+        if(GetInput(out NetworkInputData networkInput))
+        {
+            this.networkInput = networkInput;
+        }
+
         MoveCharacter();
     }
 
     void MoveCharacter()
     {
-        KCC.AddLookRotation(new Vector2(-input.LookDirection.x, input.LookDirection.y));
+        KCC.AddLookRotation(new Vector2(-networkInput.LookDirection.y, networkInput.LookDirection.x));
 
-        Vector3 inputDirection = KCC.TransformRotation * new Vector3(input.MoveDirection.x, 0.0f, input.MoveDirection.y);
+        Vector3 inputDirection = KCC.TransformRotation * new Vector3(networkInput.MoveDirection.x, 0.0f, networkInput.MoveDirection.y);
 
         Vector3 desiredMoveVelocity = inputDirection * moveSpeed;
 
@@ -51,14 +57,12 @@ public class PlayerController : NetworkBehaviour
         _moveVelocity = Vector3.Lerp(_moveVelocity, desiredMoveVelocity, acceleration * Runner.DeltaTime);
 
         Vector3 _jumpImpulse = Vector3.zero;
-        if (input.Jump)
+        if (networkInput.Jump)
         {
             if (KCC.IsGrounded == true)
             {
                 _jumpImpulse = Vector3.up * jumpImpulse;
             }
-
-            input.Jump = false;
         }
 
 
