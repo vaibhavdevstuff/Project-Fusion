@@ -14,7 +14,6 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
         if (Object.HasInputAuthority)
         {
             Local = this;
-
             transform.SetRenderLayerInChildren(LayerManager.LocalPlayer);
         }
         else

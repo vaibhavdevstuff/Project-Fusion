@@ -38,6 +38,7 @@ Transform:
   m_Children:
   - {fileID: 6502463653430553162}
   - {fileID: 4391931547318109320}
+  - {fileID: 1940977504384219615}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1529925146289131963
@@ -173,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinemachineCameraTarget: {fileID: 8912358235517866880}
-  cinemachineVirtualCamera: {fileID: 2328049020820239852, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+  cinemachineVirtualCamera: {fileID: 1741088698214008047}
   TopClamp: 70
   BottomClamp: -30
   MouseSensitivityX: 1
@@ -457,3 +458,80 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6306234478980568193}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &4064343416653345027
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6306234478980568193}
+    m_Modifications:
+    - target: {fileID: 2328049020820239852, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 4391931547318109320}
+    - target: {fileID: 2488465345376520412, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488465345376520412, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488465345376520412, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488465345376520412, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6967903
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488465345376520412, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.12301993
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488465345376520412, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.69607365
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488465345376520412, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.12178245
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488465345376520412, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488465345376520412, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488465345376520412, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3864328828660078007, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+      propertyPath: m_Name
+      value: Player Follow Camera
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+--- !u!114 &1741088698214008047 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2328049020820239852, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+  m_PrefabInstance: {fileID: 4064343416653345027}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1940977504384219615 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2488465345376520412, guid: 3a625578c4a5eff4c8d3c1dc466de3f1, type: 3}
+  m_PrefabInstance: {fileID: 4064343416653345027}
+  m_PrefabAsset: {fileID: 0}

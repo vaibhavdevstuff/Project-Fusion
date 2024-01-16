@@ -28,6 +28,7 @@ public class CameraController : MonoBehaviour
     private const float _threshold = 0.01f;
 
     private SimpleKCC kcc;
+    
     public GameObject CinemachineCameraTarget { get { return cinemachineCameraTarget; } }
     public CinemachineVirtualCamera CinemachineVirtualCamera { get { return cinemachineVirtualCamera; } }
 
@@ -35,8 +36,8 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         kcc = GetComponent<SimpleKCC>();
-        CinemachineVirtualCamera Vcamera = Instantiate(cinemachineVirtualCamera);
-        Vcamera.Follow = cinemachineCameraTarget.transform;
+        cinemachineVirtualCamera.Follow = cinemachineCameraTarget.transform;
+        cinemachineVirtualCamera.transform.parent = null;
 
         cinemachineTargetYaw = cinemachineCameraTarget.transform.rotation.eulerAngles.y;
     }

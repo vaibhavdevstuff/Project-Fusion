@@ -32,12 +32,18 @@ public class NetworkRunnerHandler : MonoBehaviour
 
         runner.ProvideInput = true;
         runner.AddCallbacks(networkRunner.GetComponent<NetworkSpawner>());
+        
+        var sceneInfo = new NetworkSceneInfo();
+        if (sceneRef.IsValid)
+        {
+            sceneInfo.AddSceneRef(sceneRef, LoadSceneMode.Additive);
+        }
 
         return runner.StartGame(new StartGameArgs
         {
             GameMode = gameMode,
             Address = netAddress,
-            Scene = sceneRef,
+            Scene = sceneInfo,
             SessionName = "ProjectFusionRoom",
             OnGameStarted = initialized,
             SceneManager = sceneManager,
