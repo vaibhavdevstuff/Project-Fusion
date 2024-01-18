@@ -1,29 +1,37 @@
 using Fusion;
 using Fusion.Addons.SimpleKCC;
 using UnityEngine;
-using Player.Input;
 
 public class PlayerController : NetworkBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private float moveSpeed = 10.0f;
     [SerializeField] private float speedAcceleration = 25.0f;
     [SerializeField] private float speedDeceleration = 30.0f;
     [SerializeField] private float jumpImpulse = 5.0f;
     [SerializeField] private float gravity = 30.0f;
 
-    private SimpleKCC KCC;
-    private Camera mainCamera;
+    [Header("Animation")]
+    [SerializeField] private float animBlendSpeed = 5f;
+
+    bool isGrounded;
+
+    Vector2 moveAnimBlendSpeed;
+
+    SimpleKCC simpleKCC;
+    PlayerAnimationHandler anim;
 
     NetworkInputData networkInput;
 
     [Networked]
     private Vector3 _moveVelocity { get; set; }
 
+    private bool IsGrounded { get { return isGrounded; } }
+
     void Awake()
     {
-        KCC = GetComponent<SimpleKCC>();
-
-        mainCamera = Camera.main;
+        simpleKCC = GetComponent<SimpleKCC>();
+        anim = GetComponent<PlayerAnimationHandler>();
     }
 
     public override void FixedUpdateNetwork()
@@ -33,14 +41,39 @@ public class PlayerController : NetworkBehaviour
             this.networkInput = networkInput;
         }
 
+        GroundedCheck();
         MoveCharacter();
+        SetVerticleAim();
+    }
+
+    private void GroundedCheck()
+    {
+        isGrounded = simpleKCC.IsGrounded;
+
+        //update animator if using character
+        bool animatorGround = anim.GetBool(anim.AnimIDGrounded);
+
+        if (isGrounded != animatorGround)
+        {
+            anim.SetBool(anim.AnimIDGrounded, isGrounded);
+        }
+    }
+
+    private void SetVerticleAim()
+    {
+        Vector2 pitchRotation = simpleKCC.GetLookRotation(true, false);
+
+        float finalAimValue = pitchRotation.x / 90f;
+
+        anim.SetFloat(anim.AnimIDVerticalAim, finalAimValue);
+
     }
 
     void MoveCharacter()
     {
-        KCC.AddLookRotation(new Vector2(-networkInput.LookDirection.y, networkInput.LookDirection.x));
-
-        Vector3 inputDirection = KCC.TransformRotation * new Vector3(networkInput.MoveDirection.x, 0.0f, networkInput.MoveDirection.y);
+        simpleKCC.AddLookRotation(new Vector2(-networkInput.LookDirection.y, networkInput.LookDirection.x));
+        
+        Vector3 inputDirection = simpleKCC.TransformRotation * new Vector3(networkInput.MoveDirection.x, 0.0f, networkInput.MoveDirection.y);
 
         Vector3 desiredMoveVelocity = inputDirection * moveSpeed;
 
@@ -59,16 +92,31 @@ public class PlayerController : NetworkBehaviour
         Vector3 _jumpImpulse = Vector3.zero;
         if (networkInput.Jump)
         {
-            if (KCC.IsGrounded == true)
+            if (isGrounded)
             {
                 _jumpImpulse = Vector3.up * jumpImpulse;
+                anim.SetBool(anim.AnimIDJump, true);
             }
+        }
+        if(!isGrounded)
+        {
+            if (anim.GetBool(anim.AnimIDJump))
+                anim.SetBool(anim.AnimIDJump, false);
         }
 
 
-        KCC.SetGravity(Vector3.down * gravity);
+        simpleKCC.SetGravity(Vector3.down * gravity);
 
-        KCC.Move(_moveVelocity, _jumpImpulse);
+        simpleKCC.Move(_moveVelocity, _jumpImpulse);
+
+        moveAnimBlendSpeed.x = Mathf.Lerp(anim.GetFloat(anim.AnimIDMoveX), networkInput.MoveDirection.x, animBlendSpeed * Runner.DeltaTime);
+        moveAnimBlendSpeed.y = Mathf.Lerp(anim.GetFloat(anim.AnimIDMoveZ), networkInput.MoveDirection.y, animBlendSpeed * Runner.DeltaTime);
+
+        if(moveAnimBlendSpeed.magnitude > 0f)
+        {
+            anim.SetFloat(anim.AnimIDMoveX, moveAnimBlendSpeed.x);
+            anim.SetFloat(anim.AnimIDMoveZ, moveAnimBlendSpeed.y);
+        }
 
     }
 
