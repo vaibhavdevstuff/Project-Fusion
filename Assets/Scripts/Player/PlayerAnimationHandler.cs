@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerAnimationHandler : MonoBehaviour
 {
     private Animator anim;
+    private NetworkMecanimAnimator netAnim;
 
 
     #region Animation Hash IDs
@@ -19,10 +20,12 @@ public class PlayerAnimationHandler : MonoBehaviour
 
 
     public Animator Animator {  get { return anim; } }
+    public NetworkMecanimAnimator NetworkMecanimAnimator {  get { return netAnim; } }
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        netAnim = GetComponent<NetworkMecanimAnimator>();
     }
 
     private void Start()
@@ -50,6 +53,11 @@ public class PlayerAnimationHandler : MonoBehaviour
     public void SetBool(int HashID, bool Value)
     {
         anim.SetBool(HashID, Value);
+    }
+
+    public void SetMTrigger(int HashID)
+    {
+        netAnim.SetTrigger(HashID);
     }
 
     #endregion

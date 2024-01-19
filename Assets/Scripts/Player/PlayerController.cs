@@ -63,15 +63,14 @@ public class PlayerController : NetworkBehaviour
     {
         Vector2 pitchRotation = simpleKCC.GetLookRotation(true, false);
 
-        float finalAimValue = pitchRotation.x / 90f;
+        float finalAimValue = pitchRotation.x / 60f;
 
         anim.SetFloat(anim.AnimIDVerticalAim, finalAimValue);
-
     }
 
-    void MoveCharacter()
+    private void MoveCharacter()
     {
-        simpleKCC.AddLookRotation(new Vector2(-networkInput.LookDirection.y, networkInput.LookDirection.x));
+        simpleKCC.AddLookRotation(-networkInput.LookDirection.y, networkInput.LookDirection.x, -30f, 60f);
         
         Vector3 inputDirection = simpleKCC.TransformRotation * new Vector3(networkInput.MoveDirection.x, 0.0f, networkInput.MoveDirection.y);
 

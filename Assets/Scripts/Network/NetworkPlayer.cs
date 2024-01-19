@@ -15,6 +15,8 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
         {
             Local = this;
             transform.SetRenderLayerInChildren(LayerManager.LocalPlayer);
+
+            this.gameObject.name = $"Player {Object.Id} [InputAuthority]";
         }
         else
         {
@@ -23,8 +25,9 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
             OtherPlayerVirtualCamera.name = "Other Player " + OtherPlayerVirtualCamera.name;
             OtherPlayerVirtualCamera.SetActive(false);
 
+            this.gameObject.name = $"Player {Object.Id}";
         }
-            
+
     }
 
     public void PlayerLeft(PlayerRef player)

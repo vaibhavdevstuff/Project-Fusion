@@ -1,5 +1,5 @@
 {
-    "name": "CharacterInput",
+    "name": "CharacterControlInput",
     "maps": [
         {
             "name": "Player",
@@ -37,6 +37,24 @@
                     "type": "PassThrough",
                     "id": "a161969f-1d1c-4a01-8cea-a6eeb9b68b3d",
                     "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Fire",
+                    "type": "PassThrough",
+                    "id": "9c76d998-c7bb-4543-aba4-7a204956b200",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Aim",
+                    "type": "PassThrough",
+                    "id": "bb707266-3160-4b97-9bc8-1d47d6866904",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -128,6 +146,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Mouse Y",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e4f3b7d2-ce5d-48fa-9fa2-5d0011e711af",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54387535-9f69-4f84-aed4-22909b841a4c",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
