@@ -15,6 +15,8 @@ public class PlayerAnimationHandler : MonoBehaviour
     public int AnimIDJump { get; private set; }
     public int AnimIDGrounded { get; private set; }
     public int AnimIDVerticalAim { get; private set; }
+    public int AnimIDFiring { get; private set; }
+    public int AnimIDReload { get; private set; }
 
     #endregion
 
@@ -40,6 +42,8 @@ public class PlayerAnimationHandler : MonoBehaviour
         AnimIDJump = Animator.StringToHash("Jump");
         AnimIDGrounded = Animator.StringToHash("Grounded");
         AnimIDVerticalAim = Animator.StringToHash("VerticalAim");
+        AnimIDFiring = Animator.StringToHash("Firing");
+        AnimIDReload = Animator.StringToHash("Reload");
    
     }
 
@@ -55,9 +59,9 @@ public class PlayerAnimationHandler : MonoBehaviour
         anim.SetBool(HashID, Value);
     }
 
-    public void SetMTrigger(int HashID)
+    public void SetTrigger(int HashID)
     {
-        netAnim.SetTrigger(HashID);
+        anim.SetTrigger(HashID);
     }
 
     #endregion

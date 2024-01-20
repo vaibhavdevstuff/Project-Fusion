@@ -13,6 +13,7 @@ namespace Player.Input
         public bool fire;
         public bool aim;
         public bool jump;
+        public bool reload;
 
         public Vector3 forwardViewVector;
 
@@ -58,21 +59,28 @@ namespace Player.Input
         {
             jump = value.isPressed;
         }
+        
+        public void OnReload(InputValue value)
+        {
+            reload = value.isPressed;
+        }
 
         public NetworkInputData GetNetworkInput()
         {
             NetworkInputData networkInput = new NetworkInputData();
 
+            networkInput.ForwardViewVector = forwardViewVector;
             networkInput.MoveDirection = moveDirection;
             networkInput.LookDirection = lookDirection;
             networkInput.Fire = fire;
             networkInput.Aim = aim;
             networkInput.Jump = jump;
-            networkInput.ForwardViewVector = forwardViewVector;
+            networkInput.Reload = reload;
 
             
             lookDirection = default;
             jump = false;
+            reload = false;
 
 
             return networkInput;
@@ -98,12 +106,13 @@ namespace Player.Input
 [System.Serializable]
 public struct NetworkInputData : INetworkInput
 {
+    public Vector2 ForwardViewVector;
     public Vector2 MoveDirection;
     public Vector2 LookDirection;
     public NetworkBool Fire;
     public NetworkBool Aim;
     public NetworkBool Jump;
-    public Vector2 ForwardViewVector;
+    public NetworkBool Reload;
 
 
 }

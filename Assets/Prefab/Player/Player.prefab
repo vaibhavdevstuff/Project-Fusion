@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 8900463259765219008}
   - component: {fileID: 6366756328032554012}
   - component: {fileID: 806267917058268546}
+  - component: {fileID: 1959218046435795184}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -139,6 +140,7 @@ MonoBehaviour:
   - {fileID: 8900463259765219008}
   - {fileID: 6366756328032554012}
   - {fileID: 806267917058268546}
+  - {fileID: 1959218046435795184}
 --- !u!114 &3871410487609967767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +270,22 @@ MonoBehaviour:
   - {fileID: 6543607669744875212}
   - {fileID: 8685195340169434667}
   - {fileID: 7584216559499729781}
+--- !u!114 &1959218046435795184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313713341463126750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd73a4a78323d3c4dab75c900bf8f373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponData: {fileID: 11400000, guid: 023d6a2d4e0963048a74bc00f8c8fd0f, type: 2}
+  Gunpoint: {fileID: 2047987419088511977}
+  _IsFiring: 0
+  _IsReloading: 0
 --- !u!1 &784074310334367340
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,6 +406,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+--- !u!4 &2047987419088511977 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 144179054669005928, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+  m_PrefabInstance: {fileID: 2192078340186466177}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2898034850792245174 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3917059605913985079, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
