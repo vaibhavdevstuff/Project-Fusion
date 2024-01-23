@@ -14,15 +14,17 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
         if (Object.HasInputAuthority)
         {
             Local = this;
-            transform.SetRenderLayerInChildren(LayerManager.LocalPlayer);
+            transform.SetRenderLayerInChildren(LayerManager.LocalPlayer, true);
 
             this.gameObject.name = $"Player {Object.Id} [InputAuthority]";
         }
         else
         {
+            transform.SetRenderLayerInChildren(LayerManager.Player, true);
+
             //Disable Camera
             GameObject OtherPlayerVirtualCamera = GetComponent<CameraController>().CinemachineVirtualCamera.gameObject;
-            OtherPlayerVirtualCamera.name = "Other Player " + OtherPlayerVirtualCamera.name;
+            OtherPlayerVirtualCamera.name = $"{Object.Id} {OtherPlayerVirtualCamera.name}";
             OtherPlayerVirtualCamera.SetActive(false);
 
             this.gameObject.name = $"Player {Object.Id}";

@@ -2,10 +2,15 @@ using UnityEngine;
 
 public static class CustomExtensions
 {
-    public static void SetRenderLayerInChildren(this Transform transform, int layer)
+    public static void SetRenderLayerInChildren(this Transform transform, int layer, bool ignoreColliderObjects = false)
     {
         foreach (Transform childTransform in transform.GetComponentsInChildren<Transform>(true))
         {
+            if (ignoreColliderObjects)
+            {
+                var col = childTransform.GetComponent<Collider>();
+                if (col) continue;            
+            }
             childTransform.gameObject.layer = layer;
         }
     }

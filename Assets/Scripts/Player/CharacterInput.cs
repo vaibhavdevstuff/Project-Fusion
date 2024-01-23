@@ -106,7 +106,7 @@ namespace Player.Input
 [System.Serializable]
 public struct NetworkInputData : INetworkInput
 {
-    public Vector2 ForwardViewVector;
+    public Vector3 ForwardViewVector;
     public Vector2 MoveDirection;
     public Vector2 LookDirection;
     public NetworkBool Fire;

@@ -7,7 +7,7 @@ TagManager:
   - MainLight
   - CinemachineTarget
   - ScreenCamera
-  - cockpit_capitalLaser
+  - IgnoreLayerChange
   layers:
   - Default
   - TransparentFX
@@ -15,12 +15,12 @@ TagManager:
   - Temp_Post
   - Water
   - UI
-  - Terminal
+  - 
   - Environment
   - Ground
   - LocalPlayer
-  - 
-  - 
+  - Player
+  - PlayerKCC
   - 
   - 
   - 

@@ -1,17 +1,32 @@
+using NaughtyAttributes;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewWeaponData", menuName = "ScriptableObjects/WeaponData", order = 1)]
+[CreateAssetMenu(fileName = "WA_NewWeaponData", menuName = "ScriptableObjects/WeaponData", order = 1)]
 public class WeaponData : ScriptableObject
 {
-    public E_WeaponFireType WeaponFireType;
+    [ReadOnly][SerializeField] private WeaponData weaponData;
+
+    [Space]
+    public E_WeaponFireMode FireMode;
+    //public E_WeaponFireModel FireModel;
 
     [Space]
     public GameObject ProjectilePrefab;
     public GameObject MuzzelFlashPrefab;
     
     [Space]
-    public int damage;
+    public int Damage;
+    public float Range;
     public float RateOfFire;
     public int MagazineSize;
-    public float ReloadTime;
+
+    private float ReloadTime = 0f;
+
+
+    private void OnValidate()
+    {
+        if(weaponData == null || weaponData != this)
+            weaponData = this;
+    }
+
 }

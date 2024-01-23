@@ -6,19 +6,26 @@ using Fusion;
 public class WeaponHandler : NetworkBehaviour
 {
     public WeaponData weaponData;
-
-    [Space]
     public Transform Gunpoint;
 
+    [Space]
+    public LayerMask weaponHitLayer;
 
-    private WeaponData currentWeaponData;
+    [Space]
+
+    private int visualCount;
 
     private float lastFireTime;
     private float currentAmmo;
 
     [Networked] public bool IsFiring {  get; set; }
     [Networked] public bool IsReloading {  get; set; }
+    [Networked] public Vector3 HitPosition{  get; set; }
+    [Networked] public int fireCount{  get; set; }
 
+    private WeaponData currentWeaponData;
+
+    private Camera cam;
     private ParticleSystem muzzleFlashParticle;
     private ChangeDetector changeDetector;
     private NetworkInputData networkInput;
@@ -29,7 +36,9 @@ public class WeaponHandler : NetworkBehaviour
         changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
 
         anim = GetComponent<PlayerAnimationHandler>();
+        cam = Camera.main;
 
+        visualCount = fireCount;
 
         SetupWeapon(weaponData);
     }
@@ -65,11 +74,7 @@ public class WeaponHandler : NetworkBehaviour
         }
 
         if (currentAmmo <= 0)
-            Reload();
-
-        if (IsFiring)
-            OnFiring();
-            
+            Reload();            
 
         ProcessInput();
         //CheckForNetworkPropsChanges();
@@ -99,6 +104,16 @@ public class WeaponHandler : NetworkBehaviour
         }
     }
 
+    public override void Render()
+    {
+        for (int i = visualCount; i < fireCount; i++)
+        {
+            OnFiring();
+            visualCount = fireCount;
+        }
+
+    }
+
     private void Fire(Vector3 ForwardVector)
     {
         if (IsReloading) 
@@ -107,6 +122,7 @@ public class WeaponHandler : NetworkBehaviour
             return;
 
         StartCoroutine(CR_Firing());
+        ProcessHitScan(ForwardVector);
 
         lastFireTime = Time.time;
         
@@ -125,17 +141,63 @@ public class WeaponHandler : NetworkBehaviour
     private void OnFiring()
     {
         muzzleFlashParticle.Play();
+
+        var projectileObject = Instantiate(currentWeaponData.ProjectilePrefab, Gunpoint.position, Gunpoint.rotation);
+        var projectile = projectileObject.GetComponent<Projectile>();
+        projectile.SetHit(HitPosition, Vector3.zero, false);
+    }
+
+    private void ProcessHitScan(Vector3 ForwardVector)
+    {
+        var hitOptions = HitOptions.IncludePhysX;
+
+        Runner.LagCompensation.Raycast(
+            cam.transform.position,
+            ForwardVector,
+            currentWeaponData.Range,
+            Object.InputAuthority,
+            out var hitInfo,
+            weaponHitLayer,
+            hitOptions);
+
+        bool hitOtherPlayer = false;
+
+        Vector3 _hitPosition = cam.transform.position + ForwardVector * currentWeaponData.Range;
+
+        if(hitInfo.Hitbox != null)
+        {
+            hitOtherPlayer = true;
+            _hitPosition = hitInfo.Point;
+        }
+        if(hitInfo.Collider != null)
+        {
+            _hitPosition = hitInfo.Point;
+        }
+
+        HitPosition = _hitPosition;
+
+        if (hitOtherPlayer)
+        {
+            Debug.DrawRay(cam.transform.position, ForwardVector * currentWeaponData.Range, Color.red, 1f);
+        }
+        else
+        {
+            Debug.DrawRay(cam.transform.position, ForwardVector * currentWeaponData.Range, Color.green, 1f);
+        }
+
+        fireCount++;
     }
 
     private void Reload()
     {
+        if (IsReloading) 
+            return;
         if (currentAmmo == currentWeaponData.MagazineSize)
             return;
 
         IsReloading = true;
         StartCoroutine(CR_Reload());
     }
-
 
     IEnumerator CR_Reload()
     {

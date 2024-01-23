@@ -16,7 +16,7 @@ namespace Game.Utils
         public const string MainLight = "MainLight";
         public const string CinemachineTarget = "CinemachineTarget";
         public const string ScreenCamera = "ScreenCamera";
-        public const string cockpit_capitalLaser = "cockpit_capitalLaser";
+        public const string IgnoreLayerChange = "IgnoreLayerChange";
 
     }
 }

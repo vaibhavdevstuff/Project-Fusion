@@ -1,6 +1,11 @@
 
-public enum E_WeaponFireType
+public enum E_WeaponFireMode
 {
-    SingleFire,
+    SingleShot,
     Automatic
+}
+public enum E_WeaponFireModel
+{
+    Hitscan,
+    Projectile
 }

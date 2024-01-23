@@ -52,8 +52,253 @@ PrefabInstance:
       propertyPath: m_Name
       value: Terraformer_A
       objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -2189267025489947836, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 738047723547918897}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -3675018617209311540, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8769621197834418605}
+    - targetCorrespondingSourceObject: {fileID: 3239469780480082982, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5420491583022003615}
+    - targetCorrespondingSourceObject: {fileID: 6367133494561260724, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6084561075178718653}
+    - targetCorrespondingSourceObject: {fileID: -6387506612370719953, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8982609980256980904}
+    - targetCorrespondingSourceObject: {fileID: 379960166579015031, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3754207447257463643}
+    - targetCorrespondingSourceObject: {fileID: 2052070956754564173, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7158583713911849977}
+  m_SourcePrefab: {fileID: 100100000, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+--- !u!1 &1438283889004380258 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6387506612370719953, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+  m_PrefabInstance: {fileID: 3796194769989352269}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8982609980256980904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438283889004380258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7d964d8bc449404cac20a26ad916f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 1
+  SphereRadius: 0
+  CapsuleRadius: 0
+  BoxExtents: {x: 0.05, y: 0.25, z: 0.05}
+  CapsuleHeight: 0
+  Offset: {x: 0, y: 0.2, z: 0}
+  Root: {fileID: 0}
+  GizmosColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  damageMultiplier: 1
+--- !u!1 &1754754164938375019 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3239469780480082982, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+  m_PrefabInstance: {fileID: 3796194769989352269}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5420491583022003615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754754164938375019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7d964d8bc449404cac20a26ad916f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 1
+  SphereRadius: 0
+  CapsuleRadius: 0
+  BoxExtents: {x: 0.1, y: 0.1, z: 0}
+  CapsuleHeight: 0
+  Offset: {x: 0, y: -0.45, z: 0}
+  Root: {fileID: 0}
+  GizmosColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  damageMultiplier: 1
+--- !u!1 &2942153126102781696 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2052070956754564173, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+  m_PrefabInstance: {fileID: 3796194769989352269}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7158583713911849977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2942153126102781696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7d964d8bc449404cac20a26ad916f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 1
+  SphereRadius: 0
+  CapsuleRadius: 0
+  BoxExtents: {x: 0.05, y: 0.25, z: 0.05}
+  CapsuleHeight: 0
+  Offset: {x: 0, y: -0.2, z: 0}
+  Root: {fileID: 0}
+  GizmosColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  damageMultiplier: 1
+--- !u!1 &3597013556623881786 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 379960166579015031, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+  m_PrefabInstance: {fileID: 3796194769989352269}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3754207447257463643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3597013556623881786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7d964d8bc449404cac20a26ad916f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 2
+  SphereRadius: 0.2
+  CapsuleRadius: 0
+  BoxExtents: {x: 0, y: 0, z: 0}
+  CapsuleHeight: 0
+  Offset: {x: 0, y: 0.08, z: 0}
+  Root: {fileID: 0}
+  GizmosColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  damageMultiplier: 1
+--- !u!4 &6138655034740254729 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2189267025489947836, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+  m_PrefabInstance: {fileID: 3796194769989352269}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7850426343433568249 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6367133494561260724, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+  m_PrefabInstance: {fileID: 3796194769989352269}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6084561075178718653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7850426343433568249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7d964d8bc449404cac20a26ad916f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 1
+  SphereRadius: 0
+  CapsuleRadius: 0
+  BoxExtents: {x: 0.18, y: 0.3, z: 0.12}
+  CapsuleHeight: 0
+  Offset: {x: 0, y: 0, z: 0}
+  Root: {fileID: 0}
+  GizmosColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  damageMultiplier: 1
+--- !u!1 &8669848258109216129 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3675018617209311540, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+  m_PrefabInstance: {fileID: 3796194769989352269}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8769621197834418605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8669848258109216129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7d964d8bc449404cac20a26ad916f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 1
+  SphereRadius: 0
+  CapsuleRadius: 0
+  BoxExtents: {x: 0.1, y: 0.45, z: 0.1}
+  CapsuleHeight: 0
+  Offset: {x: 0, y: 0.45, z: 0}
+  Root: {fileID: 0}
+  GizmosColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  damageMultiplier: 1
+--- !u!1001 &4351078173674627590
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6138655034740254729}
+    m_Modifications:
+    - target: {fileID: 3917059605913985079, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.043
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917059605913985079, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.079
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917059605913985079, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.028
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917059605913985079, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.03485531
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917059605913985079, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.21149802
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917059605913985079, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.580497
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917059605913985079, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7855425
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917059605913985079, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 63.801
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917059605913985079, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 302.403
+      objectReference: {fileID: 0}
+    - target: {fileID: 3917059605913985079, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 497.139
+      objectReference: {fileID: 0}
+    - target: {fileID: 4402233837329365645, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+      propertyPath: m_Name
+      value: Terraformer_Weapon_A_1P
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: be42fbec9ab90104585ada73b168bb5f, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+--- !u!4 &738047723547918897 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3917059605913985079, guid: a103c26cff33be94eaadd1424f2b20b7, type: 3}
+  m_PrefabInstance: {fileID: 4351078173674627590}
+  m_PrefabAsset: {fileID: 0}
