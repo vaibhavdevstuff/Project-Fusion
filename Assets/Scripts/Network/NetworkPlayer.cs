@@ -14,7 +14,7 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
         if (Object.HasInputAuthority)
         {
             Local = this;
-            transform.SetRenderLayerInChildren(LayerManager.LocalPlayer, true);
+            transform.SetRenderLayerInChildren(LayerManager.Player, true);
 
             this.gameObject.name = $"Player {Object.Id} [InputAuthority]";
         }

@@ -16,6 +16,7 @@ namespace Player.Input
         public bool reload;
 
         public Vector3 forwardViewVector;
+        public Vector3 cameraPosition;
 
         private Camera cam;
 
@@ -28,6 +29,7 @@ namespace Player.Input
         private void Update()
         {
             forwardViewVector = cam.transform.forward;
+            cameraPosition = cam.transform.position;
         }
 
         public void OnMove(InputValue value)
@@ -70,6 +72,7 @@ namespace Player.Input
             NetworkInputData networkInput = new NetworkInputData();
 
             networkInput.ForwardViewVector = forwardViewVector;
+            networkInput.CameraPosition = cameraPosition;
             networkInput.MoveDirection = moveDirection;
             networkInput.LookDirection = lookDirection;
             networkInput.Fire = fire;
@@ -107,6 +110,7 @@ namespace Player.Input
 public struct NetworkInputData : INetworkInput
 {
     public Vector3 ForwardViewVector;
+    public Vector3 CameraPosition;
     public Vector2 MoveDirection;
     public Vector2 LookDirection;
     public NetworkBool Fire;

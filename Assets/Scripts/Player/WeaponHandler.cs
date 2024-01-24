@@ -16,8 +16,8 @@ public class WeaponHandler : NetworkBehaviour
     private int visualCount;
 
     private float lastFireTime;
-    private float currentAmmo;
 
+    [Networked] public float currentAmmo {  get; set; }
     [Networked] public bool IsFiring {  get; set; }
     [Networked] public bool IsReloading {  get; set; }
     [Networked] public Vector3 HitPosition{  get; set; }
@@ -25,18 +25,19 @@ public class WeaponHandler : NetworkBehaviour
 
     private WeaponData currentWeaponData;
 
-    private Camera cam;
+    private Vector3 cameraPosition;
     private ParticleSystem muzzleFlashParticle;
     private ChangeDetector changeDetector;
     private NetworkInputData networkInput;
     private PlayerAnimationHandler anim;
+
+    bool firstFire;
 
     public override void Spawned()
     {
         changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
 
         anim = GetComponent<PlayerAnimationHandler>();
-        cam = Camera.main;
 
         visualCount = fireCount;
 
@@ -87,6 +88,8 @@ public class WeaponHandler : NetworkBehaviour
 
         if (networkInput.Reload)
             Reload();
+
+        cameraPosition = networkInput.CameraPosition;
     }
 
     private void CheckForNetworkPropsChanges()
@@ -95,8 +98,8 @@ public class WeaponHandler : NetworkBehaviour
         {
             switch (change)
             {
-                case nameof(IsFiring):
-                    //OnFireChanged();
+                case nameof(HitPosition):
+                    //OnFiring();
                     break;
                 case nameof(IsReloading):
                     break;
@@ -152,7 +155,7 @@ public class WeaponHandler : NetworkBehaviour
         var hitOptions = HitOptions.IncludePhysX;
 
         Runner.LagCompensation.Raycast(
-            cam.transform.position,
+            cameraPosition,
             ForwardVector,
             currentWeaponData.Range,
             Object.InputAuthority,
@@ -162,30 +165,50 @@ public class WeaponHandler : NetworkBehaviour
 
         bool hitOtherPlayer = false;
 
-        Vector3 _hitPosition = cam.transform.position + ForwardVector * currentWeaponData.Range;
+        Vector3 _hitPosition = cameraPosition + ForwardVector * currentWeaponData.Range;
 
         if(hitInfo.Hitbox != null)
         {
             hitOtherPlayer = true;
             _hitPosition = hitInfo.Point;
+
+            ApplyDamage(hitInfo.Hitbox);
         }
         if(hitInfo.Collider != null)
         {
             _hitPosition = hitInfo.Point;
         }
 
+
+        print(Object.Id + " " +cameraPosition + " Hitposition " + _hitPosition);
         HitPosition = _hitPosition;
+        print(Object.Id + " Update Hitposition " + HitPosition);
+
 
         if (hitOtherPlayer)
         {
-            Debug.DrawRay(cam.transform.position, ForwardVector * currentWeaponData.Range, Color.red, 1f);
+            Debug.DrawRay(cameraPosition, ForwardVector * currentWeaponData.Range, Color.red, 1f);
         }
         else
         {
-            Debug.DrawRay(cam.transform.position, ForwardVector * currentWeaponData.Range, Color.green, 1f);
+            Debug.DrawRay(cameraPosition, ForwardVector * currentWeaponData.Range, Color.green, 1f);
         }
 
         fireCount++;
+    }
+
+    private void ApplyDamage(Hitbox hitbox)
+    {
+        var enemyHealth = hitbox.Root.GetComponent<CharacterHealth>();
+        if (enemyHealth == null || enemyHealth.IsAlive == false)
+            return;
+
+        float damageMultiplier = hitbox is BodyHitbox bodyHitbox ? bodyHitbox.DamageMultiplier : 1f;
+
+        float damage = currentWeaponData.Damage * damageMultiplier;
+
+        if (enemyHealth.ApplyDamage(damage))
+            return;
     }
 
     private void Reload()

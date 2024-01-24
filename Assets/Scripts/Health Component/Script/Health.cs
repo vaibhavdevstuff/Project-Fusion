@@ -65,8 +65,10 @@ namespace DC.HealthSystem
         [Tooltip("Event that is triggered when this object dies.")]
         [SerializeField] private UnityEvent<float> OnDeathEvent;
 
-        [Tooltip("Determine weather the object is dead or not")]
-        private bool isDead = false;
+        [Networked] 
+        public bool IsDead { get; set; }
+        [Networked]
+        public bool Invincible { get; set; }
 
         //Action Events
 
@@ -92,7 +94,6 @@ namespace DC.HealthSystem
 
         public float MaxValue { get => maxValue; }
         public float MinValue { get => minValue; }
-        public bool Invincible { get => invincible; set => invincible = value; }
         public float TimeInvincibleAfterSpawn { get => timeInvincibleAfterSpawn; set => timeInvincibleAfterSpawn = value < 0 ? 0 : value; }
         public OnDeathSelf OnDeathDoSelf { get => onDeathDoSelf; set => onDeathDoSelf = value; }
         public float AfterDeathDelay { get => afterDeathDelay; set => afterDeathDelay = value < 0 ? 0 : value; }
@@ -103,8 +104,6 @@ namespace DC.HealthSystem
         public List<AudioClip> HealAudio { get => healAudio; set => healAudio = value; }
         public List<AudioClip> DamageAudio { get => damageAudio; set => damageAudio = value; }
         public List<AudioClip> DeathAudio { get => deathAudio; set => deathAudio = value; }
-        public bool IsDead { get => isDead; }
-
 
         #endregion
 
@@ -115,12 +114,18 @@ namespace DC.HealthSystem
         {
             HealthValue = maxValue;
             value = HealthValue;
+
+            Invincible = invincible;
         }
 
         public override void FixedUpdateNetwork()
         {
             if(value != HealthValue)
                 value = HealthValue;
+
+            if(invincible != Invincible)
+                invincible = Invincible;
+
         }
 
 
@@ -164,10 +169,10 @@ namespace DC.HealthSystem
         public void Heal(float HealAmount)
         {
             // Check if the entity is already dead. If so, return without doing anything
-            if (isDead) return;
+            if (IsDead) return;
 
             // Update the value by adding the HealAmount, and clamp it between the minValue and maxValue
-            value = Mathf.Clamp(value += HealAmount, minValue, maxValue);
+            HealthValue = Mathf.Clamp(value += HealAmount, minValue, maxValue);
 
             //Play Heal Audio Clip If Available
             PlayHealAudio();
@@ -183,19 +188,19 @@ namespace DC.HealthSystem
         public void Damage(float DamageAmount)
         {
             // Check if the entity is already dead or invincible. If so, return without doing anything
-            if (isDead || invincible) return;
+            if (IsDead || Invincible) return;
 
             // Update the value by subtracting the DamageAmount, and clamp it between the minValue and maxValue
-            value = Mathf.Clamp(value -= DamageAmount, minValue, maxValue);
+            HealthValue = Mathf.Clamp(value -= DamageAmount, minValue, maxValue);
 
             // If the entity is not dead, invoke the OnDamageEvent to notify any listeners that it has taken damage
             InvokeOnDamageEvent(DamageAmount);
 
             // If the value has reached the minValue, the entity is dead
-            if (value == minValue)
+            if (HealthValue == minValue)
             {
                 // Set the isDead flag to true
-                isDead = true;
+                IsDead = true;
 
                 // Start a coroutine to self-destruct the entity after a short delay
                 StartCoroutine(AfterDeathSelfDestruct());
@@ -231,7 +236,7 @@ namespace DC.HealthSystem
             yield return new WaitForSeconds(timeInvincibleAfterSpawn);
 
             if (timeInvincibleAfterSpawn > 0 && invincible)
-                invincible = false;
+                Invincible = false;
 
         }
 

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4979468703353031123}
   - component: {fileID: 419122787724269028}
   - component: {fileID: 5010004875270550982}
+  - component: {fileID: 2204583668710527562}
   - component: {fileID: 8900463259765219008}
   - component: {fileID: 6366756328032554012}
   - component: {fileID: 806267917058268546}
@@ -113,6 +114,7 @@ MonoBehaviour:
   - {fileID: 3871410487609967767}
   - {fileID: 4979468703353031123}
   - {fileID: 419122787724269028}
+  - {fileID: 2204583668710527562}
   - {fileID: 8900463259765219008}
   - {fileID: 6366756328032554012}
   - {fileID: 806267917058268546}
@@ -188,6 +190,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41fda3cf910024409c382444fd19970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2204583668710527562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313713341463126750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c169df6222cb3a4a9e22fe04eef0d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  MaxHealth: 100
+  MinHealth: 0
+  invinsibleDurationAfterSpawn: 2
 --- !u!114 &8900463259765219008
 MonoBehaviour:
   m_ObjectHideFlags: 0

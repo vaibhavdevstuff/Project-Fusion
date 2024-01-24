@@ -3,5 +3,5 @@ using UnityEngine;
 
 public class BodyHitbox : Hitbox
 {
-    public float damageMultiplier = 1f;
+    public float DamageMultiplier = 1f;
 }
