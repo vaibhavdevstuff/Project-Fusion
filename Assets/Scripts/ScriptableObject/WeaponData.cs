@@ -20,7 +20,7 @@ public class WeaponData : ScriptableObject
     public float RateOfFire;
     public int MagazineSize;
 
-    private float ReloadTime = 0f;
+    [HideInInspector] public float ReloadTime = 0f;
 
 
     private void OnValidate()

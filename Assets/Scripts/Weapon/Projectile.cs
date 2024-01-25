@@ -46,8 +46,6 @@ public class Projectile : MonoBehaviour
 
         duration = Vector3.Distance(startPosition, targetPosition) / Speed;
         startTime = Time.timeSinceLevelLoad;
-
-        Debug.Log($"{startPosition} | {targetPosition}");
     }
 
     private void Update()

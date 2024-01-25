@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4979468703353031123}
   - component: {fileID: 419122787724269028}
   - component: {fileID: 5010004875270550982}
+  - component: {fileID: 7718033868650252590}
   - component: {fileID: 2204583668710527562}
   - component: {fileID: 8900463259765219008}
   - component: {fileID: 6366756328032554012}
@@ -114,6 +115,8 @@ MonoBehaviour:
   - {fileID: 3871410487609967767}
   - {fileID: 4979468703353031123}
   - {fileID: 419122787724269028}
+  - {fileID: 5010004875270550982}
+  - {fileID: 7718033868650252590}
   - {fileID: 2204583668710527562}
   - {fileID: 8900463259765219008}
   - {fileID: 6366756328032554012}
@@ -147,8 +150,8 @@ MonoBehaviour:
   TotalWords: 4
   ApplyTiming: 2
   SyncSettings: 15
-  StateHashes: 00000000a1f7ab0dbb6691e7e73b0e7fd4882b48702be2124398c7253cb1097a26203390eef32509dc90ad3bc01206a9e3ab6160f1a6ecf88203759363cb14a5a8ddba07
-  TriggerHashes: 00000000
+  StateHashes: 00000000a1f7ab0dbb6691e7e73b0e7fd4882b48702be2124398c7253cb1097a262033902afa8626a8b5caa3eef3250911f62c0cc01206a9e3ab6160f1a6ecf88203759363cb14a5a8ddba07
+  TriggerHashes: 0000000049905c912afa8626
 --- !u!114 &419122787724269028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +191,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c41fda3cf910024409c382444fd19970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7718033868650252590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313713341463126750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d0dd6ba4715e1c4fb34f6fc3a4ff2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2204583668710527562
@@ -281,6 +296,7 @@ MonoBehaviour:
   weaponHitLayer:
     serializedVersion: 2
     m_Bits: 1025
+  _currentAmmo: 0
   _IsFiring: 0
   _IsReloading: 0
   _HitPosition: {x: 0, y: 0, z: 0}

@@ -17,7 +17,7 @@ public class NetworkRunnerHandler : MonoBehaviour
         networkRunner.name = "Network Runner";
 
         var client = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(),
-            SceneRef.FromIndex(0), null);
+            SceneRef.FromIndex(1), null);
 
         Debug.Log("Server is Started"); 
     

@@ -179,11 +179,7 @@ public class WeaponHandler : NetworkBehaviour
             _hitPosition = hitInfo.Point;
         }
 
-
-        print(Object.Id + " " +cameraPosition + " Hitposition " + _hitPosition);
         HitPosition = _hitPosition;
-        print(Object.Id + " Update Hitposition " + HitPosition);
-
 
         if (hitOtherPlayer)
         {
@@ -225,9 +221,17 @@ public class WeaponHandler : NetworkBehaviour
     IEnumerator CR_Reload()
     {
         // Simulate reloading time
-        yield return new WaitForSeconds(0.15f);
-        float waitTime = anim.Animator.GetCurrentPlayingAnimationTime(2);
-        yield return new WaitForSeconds(waitTime - 0.2f);
+        if (currentWeaponData.ReloadTime <= 0)
+        {
+            yield return new WaitForSeconds(0.15f);
+            float waitTime = anim.Animator.GetCurrentPlayingAnimationTime(2);
+            yield return new WaitForSeconds(waitTime - 0.2f);
+            currentWeaponData.ReloadTime = waitTime;
+        }
+        else
+        {
+            yield return new WaitForSeconds(currentWeaponData.ReloadTime - 0.05f);
+        }
 
         // Refill the magazine
         currentAmmo = currentWeaponData.MagazineSize;

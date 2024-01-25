@@ -1,9 +1,10 @@
 using Fusion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimationHandler : MonoBehaviour
+public class PlayerAnimationHandler : NetworkBehaviour
 {
     private Animator anim;
     private NetworkMecanimAnimator netAnim;
@@ -17,6 +18,17 @@ public class PlayerAnimationHandler : MonoBehaviour
     public int AnimIDVerticalAim { get; private set; }
     public int AnimIDFiring { get; private set; }
     public int AnimIDReload { get; private set; }
+    public int AnimIDDeath { get; private set; }
+    public int AnimIDReset { get; private set; }
+
+    #endregion
+
+    #region Layer ID
+    public int LayerIDBase { get; private set; }
+    public int LayerIDVerticalAim { get; private set; }
+    public int LayerIDFireReload { get; private set; }
+
+
 
     #endregion
 
@@ -33,6 +45,14 @@ public class PlayerAnimationHandler : MonoBehaviour
     private void Start()
     {
         SetAnimationIDs();
+        SetStateIDs();
+    }
+
+    private void SetStateIDs()
+    {
+        LayerIDBase = anim.GetLayerIndex("Base Layer");
+        LayerIDVerticalAim = anim.GetLayerIndex("Vertical Aim");
+        LayerIDFireReload = anim.GetLayerIndex("Fire & Reload");
     }
 
     private void SetAnimationIDs()
@@ -44,7 +64,8 @@ public class PlayerAnimationHandler : MonoBehaviour
         AnimIDVerticalAim = Animator.StringToHash("VerticalAim");
         AnimIDFiring = Animator.StringToHash("Firing");
         AnimIDReload = Animator.StringToHash("Reload");
-   
+        AnimIDDeath = Animator.StringToHash("Death");
+        AnimIDReset = Animator.StringToHash("Reset");
     }
 
     #region Animation Set
@@ -59,7 +80,14 @@ public class PlayerAnimationHandler : MonoBehaviour
         anim.SetBool(HashID, Value);
     }
 
-    public void SetTrigger(int HashID)
+    public void SetNetTrigger(int HashID)
+    {
+        if (Runner.IsServer)
+            RPC_Trigger(HashID);
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_Trigger(int HashID)
     {
         anim.SetTrigger(HashID);
     }
@@ -79,11 +107,28 @@ public class PlayerAnimationHandler : MonoBehaviour
 
     #endregion
 
+    public void SetLayerWeight(int layerIndex, float weight)
+    {
+        anim.SetLayerWeight(layerIndex, weight);
+    }
 
+    public void PlayDeathAnimation()
+    {
+        SetLayerWeight(LayerIDVerticalAim, 0f);
+        SetLayerWeight(LayerIDFireReload, 0f);
 
+        SetNetTrigger(AnimIDDeath);
+    }
 
+    public void ResetAnimation()
+    {
+        SetLayerWeight(LayerIDVerticalAim, 1f);
+        SetLayerWeight(LayerIDFireReload, 1f);
+        
+        SetNetTrigger(AnimIDReset);
+    }
 
-
+    
 
 
 }

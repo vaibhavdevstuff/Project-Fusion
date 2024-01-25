@@ -148,6 +148,8 @@ public static partial class ToolbarUtility
         OnRightToolbarAttached(toolbar);
 
         // Replace the existing buttons with your custom "Player" button
+        //toolbar.Add(CreateToolbarButton(OpenPlaygroundScene, "BuildSettings.Editor", "Playground"));
+        //toolbar.Add(CreateToolbarButton(OpenMainScene, "BuildSettings.Editor", "Main"));
         toolbar.Add(CreateToolbarButton(OpenPlayerPrefab, "Prefab Icon", "Player"));
     }
 
@@ -163,6 +165,36 @@ public static partial class ToolbarUtility
         else
         {
             Debug.LogError("Player Prefab not found. Please provide the correct path.");
+        }
+    }
+
+    private static void OpenPlaygroundScene()
+    {
+        string scenePath = "Assets/Scenes/Playground.unity";
+        var Scene = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath); // Specify the type as SceneAsset
+
+        if (Scene != null)
+        {
+            EditorSceneManager.OpenScene(scenePath); // Use EditorSceneManager to open the scene
+        }
+        else
+        {
+            Debug.LogError("Scene not found. Please provide the correct path.");
+        }
+    }
+
+    private static void OpenMainScene()
+    {
+        string scenePath = "Assets/Scenes/MainMenu.unity";
+        var Scene = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath); // Specify the type as SceneAsset
+
+        if (Scene != null)
+        {
+            EditorSceneManager.OpenScene(scenePath); // Use EditorSceneManager to open the scene
+        }
+        else
+        {
+            Debug.LogError("Scene not found. Please provide the correct path.");
         }
     }
 

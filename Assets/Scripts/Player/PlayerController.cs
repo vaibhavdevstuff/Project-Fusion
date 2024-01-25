@@ -23,6 +23,7 @@ public class PlayerController : NetworkBehaviour
     SimpleKCC simpleKCC;
     PlayerAnimationHandler anim;
     WeaponHandler weaponHandler;
+    CharacterHealth health;
 
     NetworkInputData networkInput;
 
@@ -36,6 +37,19 @@ public class PlayerController : NetworkBehaviour
         simpleKCC = GetComponent<SimpleKCC>();
         anim = GetComponent<PlayerAnimationHandler>();
         weaponHandler = GetComponent<WeaponHandler>();
+        health = GetComponent<CharacterHealth>();
+    }
+
+    public override void Spawned()
+    {
+        if (!health)
+            health = GetComponent<CharacterHealth>();
+
+        if (health)
+        {
+            health.OnDamage += OnDamage;
+            health.OnDeath += OnDeath;
+        }
     }
 
     public override void FixedUpdateNetwork()
@@ -138,6 +152,15 @@ public class PlayerController : NetworkBehaviour
 
     }
 
+    private void OnDamage(float damage)
+    {
+        Debug.Log(Object.Id + " Damage");
+    }
 
-    
+    private void OnDeath()
+    {
+        Debug.Log(Object.Id + " Death");
+        anim.PlayDeathAnimation();
+    }
+
 }
