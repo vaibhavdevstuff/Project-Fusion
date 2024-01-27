@@ -11,6 +11,10 @@ public class UIMainMenu : UIManager
     public Button SettingsButton;
     public Button QuitButton;
 
+    [Header("Play Button Data")]
+    public GameObject VCam_MainMenu;
+    public GameObject LobbyUIPanel;
+
     [Header("Name Change Data")]
     public Button ChangeNameButton;
     public Button ChangeNameConfirmButton;
@@ -23,11 +27,17 @@ public class UIMainMenu : UIManager
 
     private void Start()
     {
-        
-
-        SubscribeButtons();
         SetInitialNickName();
+    }
 
+    private void OnEnable()
+    {
+        SubscribeButtons();
+    }
+
+    private void OnDisable()
+    {
+        UnSubscribeButtons();
     }
 
     private void SubscribeButtons()
@@ -37,9 +47,20 @@ public class UIMainMenu : UIManager
         ChangeNameConfirmButton.onClick.AddListener(OnChangeNameConfirmButtonPress);
     }
 
+    private void UnSubscribeButtons()
+    {
+        PlayButton.onClick.RemoveAllListeners();
+        ChangeNameButton.onClick.RemoveAllListeners();
+        ChangeNameConfirmButton.onClick.RemoveAllListeners();
+    }
+
     private void OnPlayButtonPress()
     {
-        LoadNextScene();
+        //LoadNextScene();
+        VCam_MainMenu.SetActive(false);
+        LobbyUIPanel.SetActive(true);
+        UIFader.FadeOut();
+
     }
 
     private void SetInitialNickName()

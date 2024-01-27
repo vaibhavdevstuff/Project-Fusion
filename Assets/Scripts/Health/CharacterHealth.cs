@@ -13,8 +13,8 @@ public class CharacterHealth : NetworkBehaviour
     [SerializeField] [NaughtyAttributes.ReadOnly] private float health;
 
     [Space]
-    [SerializeField] private float MaxHealth;
-    [SerializeField] private float MinHealth;
+    public float MaxHealth;
+    public float MinHealth;
 
     [Space]
     [SerializeField] private float invinsibleDurationAfterSpawn = 2f;
@@ -24,7 +24,7 @@ public class CharacterHealth : NetworkBehaviour
     [SerializeField] public bool IsInvinclible => invinsibleTimer.ExpiredOrNotRunning(Runner) == false;
     [SerializeField] public bool IsAlive => CurrentHealth > 0;
 
-    [Networked] private float CurrentHealth { get; set; }
+    [Networked] public float CurrentHealth { get; set; }
     [Networked] private TickTimer invinsibleTimer { get; set; }
 
     private float lastHealthValue;

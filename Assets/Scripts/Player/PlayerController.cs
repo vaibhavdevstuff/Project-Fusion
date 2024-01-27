@@ -59,6 +59,8 @@ public class PlayerController : NetworkBehaviour
             this.networkInput = networkInput;
         }
 
+        if (!health.IsAlive) return;
+
         GroundedCheck();
         MoveCharacter();
         SetVerticleAim();

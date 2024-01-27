@@ -148,9 +148,10 @@ public static partial class ToolbarUtility
         OnRightToolbarAttached(toolbar);
 
         // Replace the existing buttons with your custom "Player" button
-        //toolbar.Add(CreateToolbarButton(OpenPlaygroundScene, "BuildSettings.Editor", "Playground"));
-        //toolbar.Add(CreateToolbarButton(OpenMainScene, "BuildSettings.Editor", "Main"));
+        toolbar.Add(CreateToolbarButton(OpenPlaygroundScene, "BuildSettings.Editor", "Playground"));
+        toolbar.Add(CreateToolbarButton(OpenMainScene, "BuildSettings.Editor", "Main"));
         toolbar.Add(CreateToolbarButton(OpenPlayerPrefab, "Prefab Icon", "Player"));
+
     }
 
     // Your custom method to open the player prefab
@@ -175,7 +176,14 @@ public static partial class ToolbarUtility
 
         if (Scene != null)
         {
-            EditorSceneManager.OpenScene(scenePath); // Use EditorSceneManager to open the scene
+            if (EditorSceneManager.SaveOpenScenes()) // Save current scene
+            {
+                EditorSceneManager.OpenScene(scenePath); // Use EditorSceneManager to open the scene
+            }
+            else
+            {
+                Debug.LogError("Failed to save the current scene.");
+            }
         }
         else
         {
@@ -190,7 +198,14 @@ public static partial class ToolbarUtility
 
         if (Scene != null)
         {
-            EditorSceneManager.OpenScene(scenePath); // Use EditorSceneManager to open the scene
+            if (EditorSceneManager.SaveOpenScenes()) // Save current scene
+            {
+                EditorSceneManager.OpenScene(scenePath); // Use EditorSceneManager to open the scene
+            }
+            else
+            {
+                Debug.LogError("Failed to save the current scene.");
+            }
         }
         else
         {
