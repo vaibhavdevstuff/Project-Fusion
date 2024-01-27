@@ -20,6 +20,24 @@ namespace Player.Input
 
         private Camera cam;
 
+        private void Awake()
+        {
+            Singleton();
+        }
+
+        private void Singleton()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+
         private void Start()
         {
             Instance = this;
@@ -28,6 +46,9 @@ namespace Player.Input
 
         private void Update()
         {
+            if(!cam)
+                cam = Camera.main;
+
             forwardViewVector = cam.transform.forward;
             cameraPosition = cam.transform.position;
         }

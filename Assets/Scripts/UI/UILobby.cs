@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,11 +8,16 @@ public class UILobby : UIManager
     [Header("Buttons")]
     public Button BackButton;
     public Button CreateRoomButton;
+    public Button CreateRoomConfirmButton;
 
 
     [Header("Back Button Data")]
     public GameObject VCam_Menu;
     public GameObject MainMenuUIPanel;
+
+    [Header("Create Room Data")]
+    public GameObject CreateRoomPanel;
+    public TMP_InputField SessionNameInputField;
 
 
     private void Start()
@@ -34,12 +40,14 @@ public class UILobby : UIManager
     {
         BackButton.onClick.AddListener(OnBackButtonPress);
         CreateRoomButton.onClick.AddListener(OnCreateRoomButtonPress);
+        CreateRoomConfirmButton.onClick.AddListener(OnCreateRoomConfirmButtonPress);
     }
 
     private void UnSubscribeButtons()
     {
         BackButton.onClick.RemoveAllListeners();
         CreateRoomButton.onClick.RemoveAllListeners();
+        CreateRoomConfirmButton.onClick.RemoveAllListeners();
     }
 
     private void OnBackButtonPress()
@@ -51,10 +59,22 @@ public class UILobby : UIManager
 
     private void OnCreateRoomButtonPress()
     {
-        LoadNextScene();
+        CreateRoomPanel.SetActive(true);
     }
 
+    private void OnCreateRoomConfirmButtonPress()
+    {
+        string sessionName = SessionNameInputField.text;
 
+        if (string.IsNullOrEmpty(sessionName)) return;
+
+        NetworkRunnerHandler networkRunnerHandler = NetworkRunnerHandler.Instance;
+
+        if (networkRunnerHandler)
+        {
+            networkRunnerHandler.CreateSession(sessionName, 1);
+        }
+    }
 
 
 

@@ -15,10 +15,13 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public SerializedDictionary<PlayerRef, NetworkPlayer> spawnedCharacters;
 
     CharacterInput characterInput;
+    UISessionListHandler sessionListHandler;
 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+
+        sessionListHandler = FindObjectOfType<UISessionListHandler>(true);
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
@@ -49,6 +52,28 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     
     }
 
+    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) 
+    {
+        if (!sessionListHandler) return;
+
+        if(sessionList.Count > 0)
+        {
+            sessionListHandler.ClearSessionList();
+
+            foreach (SessionInfo sessionInfo in sessionList)
+            {
+                sessionListHandler.AddSessionItemToList(sessionInfo);
+            }
+        }
+        else
+        {
+            sessionListHandler.NoSessionFound();
+        }
+    
+    
+    }
+
+
     #region Rest of Network Runner Callbacks
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { Debug.Log("OnPlayerLeft"); }
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
@@ -58,7 +83,6 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { Debug.Log("OnConnectRequest"); }
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { Debug.Log($"OnConnectFailed | {reason} | {remoteAddress}"); }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
-    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
     public void OnSceneLoadDone(NetworkRunner runner) { Debug.Log("Scene Load Done"); }

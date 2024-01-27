@@ -56,7 +56,10 @@ public class UIMainMenu : UIManager
 
     private void OnPlayButtonPress()
     {
-        //LoadNextScene();
+        
+        NetworkRunnerHandler networkRunnerHandler = FindObjectOfType<NetworkRunnerHandler>();
+        networkRunnerHandler.OnJoinLobby();
+
         VCam_MainMenu.SetActive(false);
         LobbyUIPanel.SetActive(true);
         UIFader.FadeOut();

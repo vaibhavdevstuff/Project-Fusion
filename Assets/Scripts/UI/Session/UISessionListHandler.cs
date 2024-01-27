@@ -1,6 +1,5 @@
 using Fusion;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -12,11 +11,19 @@ public class UISessionListHandler : MonoBehaviour
     public GameObject SessionStatusObject;
     public TextMeshProUGUI SessionStatusText;
 
-    public void ClearDefaultList()
+    private void Awake()
+    {
+        //Clear Default Debug List UI
+        ClearSessionList();
+
+        WaitForSession();
+    }
+
+    public void ClearSessionList()
     {
         foreach(Transform child in SessionListContainer.transform)
         {
-            Destroy(child);
+            Destroy(child.gameObject);
         }
 
         SessionStatusObject.SetActive(false);
@@ -28,17 +35,31 @@ public class UISessionListHandler : MonoBehaviour
 
         sessionItem.SetInfo(sessionInfo);
 
-
+        sessionItem.OnJoinSession += OnJoinSession;
     }
 
-    private void NoSessionFound()
+    private void OnJoinSession(SessionInfo info)
     {
+        NetworkRunnerHandler networkRunnerHandler = NetworkRunnerHandler.Instance;
+            
+        if (networkRunnerHandler != null)
+        {
+            networkRunnerHandler.JoinSession(info);
+        }
+    }
+
+    public void NoSessionFound()
+    {
+        ClearSessionList() ;
+
         SessionStatusObject.SetActive(true);
         SessionStatusText.text = "No Game Session Found";
     }
 
-    private void WaitForSession()
+    public void WaitForSession()
     {
+        ClearSessionList();
+
         SessionStatusObject.SetActive(true);
         SessionStatusText.text = "Searching for Game Session...";
     }
