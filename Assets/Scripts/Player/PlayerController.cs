@@ -26,6 +26,7 @@ public class PlayerController : NetworkBehaviour
     PlayerAudioHandler audioHandler;
     CameraController cameraController;
     UIPlayer playerUI;
+    HurtEffect hurtEffect;
 
     NetworkInputData networkInput;
 
@@ -43,6 +44,7 @@ public class PlayerController : NetworkBehaviour
         audioHandler = GetComponent<PlayerAudioHandler>();
         cameraController = GetComponent<CameraController>();
         playerUI = GetComponentInChildren<UIPlayer>();
+        hurtEffect = FindObjectOfType<HurtEffect>();
     }
 
     public override void Spawned()
@@ -174,7 +176,7 @@ public class PlayerController : NetworkBehaviour
 
     private void OnDamage(float damage)
     {
-        
+        ShowHurtEffect();
     }
 
     private void OnDeath()
@@ -182,6 +184,12 @@ public class PlayerController : NetworkBehaviour
         audioHandler.PlayDeathSound();
         anim.PlayDeathAnimation();
         cameraController.SwitchToDeathCamera();
+    }
+
+    private void ShowHurtEffect()
+    {
+        if (Object.HasInputAuthority)
+            hurtEffect.GotHurt();
     }
 
     public void RespawnPlayer()

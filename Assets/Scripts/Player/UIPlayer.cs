@@ -1,7 +1,5 @@
 using Fusion;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +11,8 @@ public class UIPlayer : NetworkBehaviour
     public TextMeshProUGUI HealthText;
     public Image HealthSlider;
 
-
+    [Header("Health")]
+    public GameObject HitCrosshair;
 
     private float maxHealth;
     private float currentHealth;
@@ -37,6 +36,8 @@ public class UIPlayer : NetworkBehaviour
             health.OnDamage += UpdateHealthUI;
             health.OnHeal += UpdateHealthUI;
         }
+
+        HitCrosshair.SetActive(false);
     }
 
     private void Start()
@@ -62,12 +63,20 @@ public class UIPlayer : NetworkBehaviour
         HealthSlider.fillAmount = currentHealth / maxHealth;
     }
 
-    void Update()
+    public void ShowHitEffect()
     {
-        
+        if (Object.HasInputAuthority)
+            StartCoroutine(CR_ShowHitEffect());
     }
 
+    IEnumerator CR_ShowHitEffect()
+    {
+        HitCrosshair.SetActive(true);
 
+        yield return new WaitForSeconds(0.2f);
+
+        HitCrosshair.SetActive(false);
+    }
 
 
 

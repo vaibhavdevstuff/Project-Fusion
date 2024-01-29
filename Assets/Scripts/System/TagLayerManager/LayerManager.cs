@@ -15,7 +15,7 @@ namespace Game.Utils
         public const int Environment = 7;
         public const int Ground = 8;
         public const int LocalPlayer = 9;
-        public const int Player = 10;
+        public const int RemotePlayer = 10;
         public const int PlayerKCC = 11;
 
     }

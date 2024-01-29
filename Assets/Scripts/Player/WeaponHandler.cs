@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using System;
 
 public class WeaponHandler : NetworkBehaviour
 {
@@ -26,13 +27,17 @@ public class WeaponHandler : NetworkBehaviour
     private WeaponData currentWeaponData;
 
     private Vector3 cameraPosition;
+
     private ParticleSystem muzzleFlashParticle;
     private ChangeDetector changeDetector;
     private NetworkInputData networkInput;
     private PlayerAnimationHandler anim;
     private PlayerAudioHandler audioHandler;
+    private UIPlayer playerUI;
 
     bool firstFire;
+
+    private int MyLayer;
 
     public override void Spawned()
     {
@@ -40,10 +45,13 @@ public class WeaponHandler : NetworkBehaviour
 
         anim = GetComponent<PlayerAnimationHandler>();
         audioHandler = GetComponent<PlayerAudioHandler>();
+        playerUI = GetComponentInChildren<UIPlayer>();
 
         visualCount = fireCount;
 
         SetupWeapon(weaponData);
+
+        MyLayer = gameObject.layer;
     }
 
     private void SetupWeapon(WeaponData _weaponData)
@@ -170,10 +178,12 @@ public class WeaponHandler : NetworkBehaviour
 
         Vector3 _hitPosition = cameraPosition + ForwardVector * currentWeaponData.Range;
 
-        if(hitInfo.Hitbox != null)
+        if(hitInfo.Hitbox != null && hitInfo.Hitbox.gameObject.layer != MyLayer)
         {
             hitOtherPlayer = true;
             _hitPosition = hitInfo.Point;
+
+            playerUI.ShowHitEffect();
 
             ApplyDamage(hitInfo.Hitbox);
         }

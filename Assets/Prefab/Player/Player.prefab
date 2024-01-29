@@ -305,7 +305,7 @@ MonoBehaviour:
   Gunpoint: {fileID: 832903408131316076}
   weaponHitLayer:
     serializedVersion: 2
-    m_Bits: 1025
+    m_Bits: 1537
   _currentAmmo: 0
   _IsFiring: 0
   _IsReloading: 0
