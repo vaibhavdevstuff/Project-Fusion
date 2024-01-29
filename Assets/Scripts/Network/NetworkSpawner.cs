@@ -8,8 +8,11 @@ using AYellowpaper.SerializedCollections;
 
 public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
+    public static NetworkSpawner Instance;
+
     [SerializeField] 
     private NetworkPlayer playerPrefab;
+    
     [Space]
     [SerializedDictionary("ID","Player")] 
     public SerializedDictionary<PlayerRef, NetworkPlayer> spawnedCharacters;
@@ -19,6 +22,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 
     private void Awake()
     {
+        Instance = this;
         DontDestroyOnLoad(gameObject);
 
         sessionListHandler = FindObjectOfType<UISessionListHandler>(true);
@@ -33,6 +37,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
             NetworkPlayer networkPlayerObject = runner.Spawn(playerPrefab, spawnPosition, Quaternion.identity, player);
             // Keep track of the player avatars for easy access
             spawnedCharacters.Add(player, networkPlayerObject);
+
         }
 
         Debug.Log("OnPlayerJoined"); 

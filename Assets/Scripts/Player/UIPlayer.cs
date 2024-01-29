@@ -53,7 +53,7 @@ public class UIPlayer : NetworkBehaviour
         health.OnHeal -= UpdateHealthUI;
     }
 
-    private void UpdateHealthUI(float value = 0f)
+    public void UpdateHealthUI(float value = 0f)
     {
         currentHealth = health.CurrentHealth;
 

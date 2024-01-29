@@ -103,7 +103,7 @@ public class CharacterHealth : NetworkBehaviour
 
     public bool AddHeal(float health)
     {
-        if (CurrentHealth <= 0f)
+        if (CurrentHealth >= 0f)
             return false;
         if (CurrentHealth >= MaxHealth)
             return false;
@@ -111,6 +111,11 @@ public class CharacterHealth : NetworkBehaviour
         CurrentHealth = Mathf.Min(CurrentHealth + health, MaxHealth);
 
         return true;
+    }
+
+    public void ResetHealth()
+    {
+        CurrentHealth = MaxHealth;
     }
 
 

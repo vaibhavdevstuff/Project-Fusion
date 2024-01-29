@@ -9,33 +9,18 @@ public class CameraController : NetworkBehaviour
 {
     [SerializeField] private GameObject cinemachineCameraTarget;
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
+    [SerializeField] private CinemachineVirtualCamera virtualDeathCamera;
 
     [Space]
     [SerializeField] private float NormalFOV = 40f;
     [SerializeField] private float AimFOV = 25f;
     [SerializeField] private float AimChangeSpeed = 10f;
-
-    //[SerializeField] private float TopClamp = 70.0f;
-    //[SerializeField] private float BottomClamp = -30.0f;
-
-    //[Space]
-    //[SerializeField] private float MouseSensitivityX = 2.0f;
-    //[SerializeField] private float MouseSensitivityY = 2.0f;
-    //[SerializeField] private bool InvertX = false;
-    //[SerializeField] private bool InvertY = true;
-
-    //[Space]
-    //[SerializeField] private bool LockCameraPosition = false;
-
-    // cinemachine
-    private float cinemachineTargetYaw;
-    private float cinemachineTargetPitch;
-
-    private const float _threshold = 0.01f;
+    [SerializeField] private float DeathCameraSwitchSpeed = 1f;
 
     private SimpleKCC kcc;
     private NetworkInputData networkInput;
     private CharacterHealth health;
+    private CinemachineBrain cmBrain;
     
     public GameObject CinemachineCameraTarget { get { return cinemachineCameraTarget; } }
     public CinemachineVirtualCamera CinemachineVirtualCamera { get { return cinemachineVirtualCamera; } }
@@ -49,10 +34,13 @@ public class CameraController : NetworkBehaviour
 
     private void Start()
     {
+        cmBrain = Camera.main.GetComponent<CinemachineBrain>();
+
         cinemachineVirtualCamera.Follow = cinemachineCameraTarget.transform;
         cinemachineVirtualCamera.transform.parent = null;
 
-        cinemachineTargetYaw = cinemachineCameraTarget.transform.rotation.eulerAngles.y;
+        virtualDeathCamera.Follow = transform; 
+        virtualDeathCamera.LookAt = transform;
     }
 
     public override void FixedUpdateNetwork()
@@ -96,8 +84,33 @@ public class CameraController : NetworkBehaviour
         cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(pitchRotation);
     }
 
+    public void DisableCameras()
+    {
+        cinemachineVirtualCamera.gameObject.SetActive(false);
+        virtualDeathCamera.gameObject.SetActive(false);
+    }
 
+    public void SwitchToTPSCamera()
+    {
+        if(!cmBrain) cmBrain = Camera.main.GetComponent<CinemachineBrain>();
 
+        if (cmBrain)
+        {
+            cmBrain.m_DefaultBlend.m_Time = 0;
+            cinemachineVirtualCamera.enabled = true;
+        }
+    }
+
+    public void SwitchToDeathCamera()
+    {
+        if (!cmBrain) cmBrain = Camera.main.GetComponent<CinemachineBrain>();
+
+        if (cmBrain)
+        {
+            cmBrain.m_DefaultBlend.m_Time = DeathCameraSwitchSpeed;
+            cinemachineVirtualCamera.enabled = false;
+        }
+    }
 
 
 

@@ -1,6 +1,5 @@
 using Fusion;
 using Fusion.Addons.SimpleKCC;
-using System;
 using UnityEngine;
 
 public class PlayerController : NetworkBehaviour
@@ -25,6 +24,8 @@ public class PlayerController : NetworkBehaviour
     WeaponHandler weaponHandler;
     CharacterHealth health;
     PlayerAudioHandler audioHandler;
+    CameraController cameraController;
+    UIPlayer playerUI;
 
     NetworkInputData networkInput;
 
@@ -40,6 +41,8 @@ public class PlayerController : NetworkBehaviour
         weaponHandler = GetComponent<WeaponHandler>();
         health = GetComponent<CharacterHealth>();
         audioHandler = GetComponent<PlayerAudioHandler>();
+        cameraController = GetComponent<CameraController>();
+        playerUI = GetComponentInChildren<UIPlayer>();
     }
 
     public override void Spawned()
@@ -52,6 +55,14 @@ public class PlayerController : NetworkBehaviour
             health.OnDamage += OnDamage;
             health.OnDeath += OnDeath;
         }
+
+        SetLocalPlayer();
+    }
+
+    private void SetLocalPlayer()
+    {
+        if (Object.HasInputAuthority)
+            GameManager.Instance.LocalPlayer = this.gameObject;
     }
 
     public override void FixedUpdateNetwork()
@@ -170,6 +181,27 @@ public class PlayerController : NetworkBehaviour
     {
         audioHandler.PlayDeathSound();
         anim.PlayDeathAnimation();
+        cameraController.SwitchToDeathCamera();
     }
+
+    public void RespawnPlayer()
+    {
+        RPC_RespawnPlayer();
+
+        cameraController.SwitchToTPSCamera();
+        playerUI.UpdateHealthUI();
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_RespawnPlayer()
+    {
+        anim.SetNetTrigger(anim.AnimIDReset);
+
+        Vector3 respawnPosition = new Vector3(Random.Range(-5f, 5f), 3f, Random.Range(-5f, 5f));
+        transform.position = respawnPosition;
+
+        health.ResetHealth();
+    }
+
 
 }
