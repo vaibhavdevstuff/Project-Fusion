@@ -42,10 +42,6 @@ public class NetworkRunnerHandler : MonoBehaviour
 
         }
 
-
-        //var client = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(),
-        //    SceneRef.FromIndex(PlaygroundSceneIndex), PublicLobbyKey, "ProjectFusionRoom", null);
-
         Debug.Log("Server is Started"); 
     
     }

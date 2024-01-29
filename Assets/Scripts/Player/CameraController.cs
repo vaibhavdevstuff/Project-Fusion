@@ -35,14 +35,20 @@ public class CameraController : NetworkBehaviour
 
     private SimpleKCC kcc;
     private NetworkInputData networkInput;
+    private CharacterHealth health;
     
     public GameObject CinemachineCameraTarget { get { return cinemachineCameraTarget; } }
     public CinemachineVirtualCamera CinemachineVirtualCamera { get { return cinemachineVirtualCamera; } }
 
 
-    private void Start()
+    private void Awake()
     {
         kcc = GetComponent<SimpleKCC>();
+        health = GetComponent<CharacterHealth>();
+    }
+
+    private void Start()
+    {
         cinemachineVirtualCamera.Follow = cinemachineCameraTarget.transform;
         cinemachineVirtualCamera.transform.parent = null;
 
@@ -56,13 +62,16 @@ public class CameraController : NetworkBehaviour
             this.networkInput = networkInput;
         }
 
+        if (!health.IsAlive) return;
+
         CameraAim();
+        CameraRotation();
+
     }
 
     private void LateUpdate()
     {
-        Vector2 pitchRotation = kcc.GetLookRotation(true, false);
-        cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(pitchRotation);
+        //CameraRotation();
     }
 
     private void CameraAim()
@@ -83,27 +92,8 @@ public class CameraController : NetworkBehaviour
 
     private void CameraRotation()
     {
-        // if there is an input and camera position is not fixed
-        //if (input.LookDirection.sqrMagnitude >= _threshold && !LockCameraPosition)
-        //{
-        //    cinemachineTargetYaw += input.LookDirection.y * MouseSensitivityX * (InvertX ? -1 : 1);
-        //    cinemachineTargetPitch += input.LookDirection.x * MouseSensitivityY * (InvertY ? -1 : 1);
-        //}
-
-        // clamp our rotations so our values are limited 360 degrees
-        //cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);
-        //cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, BottomClamp, TopClamp);
-
-        // Cinemachine will follow this target
-        //cinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetPitch,
-        //    cinemachineTargetYaw, 0.0f);
-    }
-
-    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
-    {
-        if (lfAngle < -360f) lfAngle += 360f;
-        if (lfAngle > 360f) lfAngle -= 360f;
-        return Mathf.Clamp(lfAngle, lfMin, lfMax);
+        Vector2 pitchRotation = kcc.GetLookRotation(true, false);
+        cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(pitchRotation);
     }
 
 

@@ -24,6 +24,7 @@ public class PlayerController : NetworkBehaviour
     PlayerAnimationHandler anim;
     WeaponHandler weaponHandler;
     CharacterHealth health;
+    PlayerAudioHandler audioHandler;
 
     NetworkInputData networkInput;
 
@@ -38,6 +39,7 @@ public class PlayerController : NetworkBehaviour
         anim = GetComponent<PlayerAnimationHandler>();
         weaponHandler = GetComponent<WeaponHandler>();
         health = GetComponent<CharacterHealth>();
+        audioHandler = GetComponent<PlayerAudioHandler>();
     }
 
     public override void Spawned()
@@ -71,13 +73,18 @@ public class PlayerController : NetworkBehaviour
     private void AnimationUpdate()
     {
         //Movement
-        moveAnimBlendSpeed.x = Mathf.Lerp(anim.GetFloat(anim.AnimIDMoveX), networkInput.MoveDirection.x, animBlendSpeed * Runner.DeltaTime);
-        moveAnimBlendSpeed.y = Mathf.Lerp(anim.GetFloat(anim.AnimIDMoveZ), networkInput.MoveDirection.y, animBlendSpeed * Runner.DeltaTime);
+        moveAnimBlendSpeed.x = Mathf.MoveTowards(anim.GetFloat(anim.AnimIDMoveX), networkInput.MoveDirection.x, animBlendSpeed * Runner.DeltaTime);
+        moveAnimBlendSpeed.y = Mathf.MoveTowards(anim.GetFloat(anim.AnimIDMoveZ), networkInput.MoveDirection.y, animBlendSpeed * Runner.DeltaTime);
 
         if (moveAnimBlendSpeed.magnitude > 0f)
         {
             anim.SetFloat(anim.AnimIDMoveX, moveAnimBlendSpeed.x);
             anim.SetFloat(anim.AnimIDMoveZ, moveAnimBlendSpeed.y);
+        }
+        else
+        {
+            anim.SetFloat(anim.AnimIDMoveX, 0);
+            anim.SetFloat(anim.AnimIDMoveZ, 0);
         }
 
         //Vertical Aim
@@ -156,12 +163,12 @@ public class PlayerController : NetworkBehaviour
 
     private void OnDamage(float damage)
     {
-        Debug.Log(Object.Id + " Damage");
+        
     }
 
     private void OnDeath()
     {
-        Debug.Log(Object.Id + " Death");
+        audioHandler.PlayDeathSound();
         anim.PlayDeathAnimation();
     }
 

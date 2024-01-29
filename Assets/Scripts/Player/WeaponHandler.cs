@@ -30,6 +30,7 @@ public class WeaponHandler : NetworkBehaviour
     private ChangeDetector changeDetector;
     private NetworkInputData networkInput;
     private PlayerAnimationHandler anim;
+    private PlayerAudioHandler audioHandler;
 
     bool firstFire;
 
@@ -38,6 +39,7 @@ public class WeaponHandler : NetworkBehaviour
         changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
 
         anim = GetComponent<PlayerAnimationHandler>();
+        audioHandler = GetComponent<PlayerAudioHandler>();
 
         visualCount = fireCount;
 
@@ -144,6 +146,7 @@ public class WeaponHandler : NetworkBehaviour
     private void OnFiring()
     {
         muzzleFlashParticle.Play();
+        audioHandler.PlayGunShootSound();
 
         var projectileObject = Instantiate(currentWeaponData.ProjectilePrefab, Gunpoint.position, Gunpoint.rotation);
         var projectile = projectileObject.GetComponent<Projectile>();
@@ -220,6 +223,8 @@ public class WeaponHandler : NetworkBehaviour
 
     IEnumerator CR_Reload()
     {
+        audioHandler.PlayReloadSound();
+
         // Simulate reloading time
         if (currentWeaponData.ReloadTime <= 0)
         {

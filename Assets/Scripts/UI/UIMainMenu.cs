@@ -1,6 +1,5 @@
 using System;
 using TMPro;
-using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,6 +42,7 @@ public class UIMainMenu : UIManager
     private void SubscribeButtons()
     {
         PlayButton.onClick.AddListener(OnPlayButtonPress);
+        QuitButton.onClick.AddListener(OnQuitButtonPress);
         ChangeNameButton.onClick.AddListener(OnChangeNameButtonPress);
         ChangeNameConfirmButton.onClick.AddListener(OnChangeNameConfirmButtonPress);
     }
@@ -50,6 +50,7 @@ public class UIMainMenu : UIManager
     private void UnSubscribeButtons()
     {
         PlayButton.onClick.RemoveAllListeners();
+        QuitButton.onClick.RemoveAllListeners();
         ChangeNameButton.onClick.RemoveAllListeners();
         ChangeNameConfirmButton.onClick.RemoveAllListeners();
     }
@@ -64,6 +65,11 @@ public class UIMainMenu : UIManager
         LobbyUIPanel.SetActive(true);
         UIFader.FadeOut();
 
+    }
+
+    private void OnQuitButtonPress()
+    {
+        Application.Quit();
     }
 
     private void SetInitialNickName()
