@@ -14,6 +14,7 @@ public class UILobby : UIManager
     [Header("Back Button Data")]
     public GameObject VCam_Menu;
     public GameObject MainMenuUIPanel;
+    public SpriteFader SpriteFader;
 
     [Header("Create Room Data")]
     public GameObject CreateRoomPanel;
@@ -55,6 +56,7 @@ public class UILobby : UIManager
         VCam_Menu.SetActive(true);
         MainMenuUIPanel.SetActive(true);
         UIFader.FadeOut();
+        SpriteFader.FadeIn();
     }
 
     private void OnCreateRoomButtonPress()

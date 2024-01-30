@@ -13,6 +13,7 @@ public class UIMainMenu : UIManager
     [Header("Play Button Data")]
     public GameObject VCam_MainMenu;
     public GameObject LobbyUIPanel;
+    public SpriteFader SpriteFader;
 
     [Header("Name Change Data")]
     public Button ChangeNameButton;
@@ -26,6 +27,8 @@ public class UIMainMenu : UIManager
 
     private void Start()
     {
+        CursorManager.Instance?.ShowCursor();
+
         SetInitialNickName();
     }
 
@@ -64,6 +67,7 @@ public class UIMainMenu : UIManager
         VCam_MainMenu.SetActive(false);
         LobbyUIPanel.SetActive(true);
         UIFader.FadeOut();
+        SpriteFader.FadeOut();
 
     }
 

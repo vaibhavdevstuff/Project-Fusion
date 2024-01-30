@@ -79,6 +79,8 @@ public class UIDeathScreen : MonoBehaviour
             PlayerController playerController = localPlayer.GetComponent<PlayerController>();
             playerController.RespawnPlayer();
             DeathUIPanel.SetActive(false);
+
+            CursorManager.Instance?.HideCursor();
         }
 
     }
@@ -95,6 +97,7 @@ public class UIDeathScreen : MonoBehaviour
 
     private void ShowDeathPanel()
     {
+        CursorManager.Instance?.ShowCursor();
         DeathUIPanel.SetActive(true);
     }
 

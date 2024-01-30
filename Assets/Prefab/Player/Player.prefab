@@ -326,7 +326,7 @@ MonoBehaviour:
   FootstepAudioSource: {fileID: 6297859912350279673}
   CommonAudioSource: {fileID: 2227694698308962159}
   GunAudioSource: {fileID: 1359130704644428511}
-  ReloadClip: {fileID: 0}
+  ReloadClip: {fileID: 8300000, guid: a7e78875622b4964094adf39e63a7fb6, type: 3}
   DeathClip: {fileID: 8300000, guid: ebcf27cf67cc7cc47b8d8dabd1af66b0, type: 3}
   FootstepClips:
   - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
@@ -429,7 +429,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 80
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -557,7 +557,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 50
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -716,7 +716,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 50
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

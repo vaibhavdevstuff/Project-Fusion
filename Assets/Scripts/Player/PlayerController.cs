@@ -59,6 +59,11 @@ public class PlayerController : NetworkBehaviour
         }
 
         SetLocalPlayer();
+
+        if (CursorManager.Instance == null)
+            Debug.LogError("Cursor Manager not found");
+
+        CursorManager.Instance?.HideCursor();
     }
 
     private void SetLocalPlayer()

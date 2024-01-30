@@ -519,6 +519,7 @@ GameObject:
   m_Component:
   - component: {fileID: 56435223}
   - component: {fileID: 56435222}
+  - component: {fileID: 56435224}
   m_Layer: 0
   m_Name: Name
   m_TagString: Untagged
@@ -593,6 +594,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 860331104}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &56435224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56435221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01916e02f6e511049b1ed05600a9e83a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitBeforeFadeIn: 0.6
+  waitBeforeFadeOut: 0
+  fadeDuration: 0.2
 --- !u!1 &83584455
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,12 +1098,12 @@ GameObject:
   - component: {fileID: 219704449}
   - component: {fileID: 219704448}
   m_Layer: 0
-  m_Name: VCam Room
+  m_Name: VCam Room (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &219704448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2850,6 +2866,7 @@ MonoBehaviour:
   QuitButton: {fileID: 40922348}
   VCam_MainMenu: {fileID: 526653283}
   LobbyUIPanel: {fileID: 2103473101}
+  SpriteFader: {fileID: 56435224}
   ChangeNameButton: {fileID: 175043611}
   ChangeNameConfirmButton: {fileID: 503969538}
   PlayerNickNameText: {fileID: 83584457}
@@ -3992,6 +4009,7 @@ GameObject:
   - component: {fileID: 1276767577}
   - component: {fileID: 1276767576}
   - component: {fileID: 1276767575}
+  - component: {fileID: 1276767578}
   m_Layer: 0
   m_Name: CharacterInput
   m_TagString: Untagged
@@ -4064,6 +4082,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1276767578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276767574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83dd8990ca0ca6245a841b8927326622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1312685763
 GameObject:
   m_ObjectHideFlags: 0
@@ -6120,8 +6150,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 526653285}
-  - {fileID: 219704449}
   - {fileID: 2129816621}
+  - {fileID: 219704449}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2103473101
@@ -6274,6 +6304,7 @@ MonoBehaviour:
   CreateRoomConfirmButton: {fileID: 5734088634852582950}
   VCam_Menu: {fileID: 526653283}
   MainMenuUIPanel: {fileID: 906401475}
+  SpriteFader: {fileID: 56435224}
   CreateRoomPanel: {fileID: 5343741999353394038}
   SessionNameInputField: {fileID: 8612327663582794157}
 --- !u!1 &2126093252
@@ -6459,12 +6490,12 @@ GameObject:
   - component: {fileID: 2129816621}
   - component: {fileID: 2129816622}
   m_Layer: 0
-  m_Name: VCam Room (1)
+  m_Name: VCam Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2129816621
 Transform:
   m_ObjectHideFlags: 0
