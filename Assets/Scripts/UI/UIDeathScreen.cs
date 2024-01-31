@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,12 +14,6 @@ public class UIDeathScreen : MonoBehaviour
 
     GameObject localPlayer;
     CharacterHealth health;
-
-    private void OnDisable()
-    {
-        UnSubscribeButton();
-        SubscribeHealthOnDeath(false);
-    }
 
     IEnumerator Start()
     {
@@ -87,7 +82,10 @@ public class UIDeathScreen : MonoBehaviour
 
     private void OnQuitButtonPress()
     {
-        
+        UnSubscribeButton();
+        SubscribeHealthOnDeath(false);
+
+        GameManager.Instance.DisconnectFromServer();
     }
 
     private void OnDeath()

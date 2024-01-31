@@ -34,6 +34,7 @@ public class WeaponHandler : NetworkBehaviour
     private PlayerAnimationHandler anim;
     private PlayerAudioHandler audioHandler;
     private UIPlayer playerUI;
+    public CharacterHealth health;
 
     bool firstFire;
 
@@ -46,6 +47,7 @@ public class WeaponHandler : NetworkBehaviour
         anim = GetComponent<PlayerAnimationHandler>();
         audioHandler = GetComponent<PlayerAudioHandler>();
         playerUI = GetComponentInChildren<UIPlayer>();
+        health = GetComponent<CharacterHealth>();
 
         visualCount = fireCount;
 
@@ -93,6 +95,8 @@ public class WeaponHandler : NetworkBehaviour
 
     private void ProcessInput()
     {
+        if (!health.IsAlive) return;
+
         if (networkInput.Fire)
             Fire(networkInput.ForwardViewVector);
 

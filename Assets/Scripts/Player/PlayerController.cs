@@ -1,5 +1,6 @@
 using Fusion;
 using Fusion.Addons.SimpleKCC;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : NetworkBehaviour
@@ -17,6 +18,8 @@ public class PlayerController : NetworkBehaviour
     bool isGrounded;
     float finalAimValue;
 
+    private List<BodyHitbox> bodyHitBoxList = new List<BodyHitbox>();
+
     Vector2 moveAnimBlendSpeed;
 
     SimpleKCC simpleKCC;
@@ -27,6 +30,7 @@ public class PlayerController : NetworkBehaviour
     CameraController cameraController;
     UIPlayer playerUI;
     HurtEffect hurtEffect;
+    HitboxRoot hitboxRoot;
 
     NetworkInputData networkInput;
 
@@ -45,6 +49,7 @@ public class PlayerController : NetworkBehaviour
         cameraController = GetComponent<CameraController>();
         playerUI = GetComponentInChildren<UIPlayer>();
         hurtEffect = FindObjectOfType<HurtEffect>();
+        hitboxRoot = GetComponent<HitboxRoot>();
     }
 
     public override void Spawned()
@@ -59,11 +64,21 @@ public class PlayerController : NetworkBehaviour
         }
 
         SetLocalPlayer();
+    }
 
+    private void Start()
+    {
         if (CursorManager.Instance == null)
             Debug.LogError("Cursor Manager not found");
 
         CursorManager.Instance?.HideCursor();
+
+        foreach(Hitbox hitbox in hitboxRoot.Hitboxes)
+        {
+            BodyHitbox bodyHitbox = hitbox as BodyHitbox;
+
+            bodyHitBoxList.Add(bodyHitbox);
+        }
     }
 
     private void SetLocalPlayer()
@@ -189,6 +204,7 @@ public class PlayerController : NetworkBehaviour
         audioHandler.PlayDeathSound();
         anim.PlayDeathAnimation();
         cameraController.SwitchToDeathCamera();
+        HitboxActivation(false);
     }
 
     private void ShowHurtEffect()
@@ -199,21 +215,36 @@ public class PlayerController : NetworkBehaviour
 
     public void RespawnPlayer()
     {
-        RPC_RespawnPlayer();
+        RPC_RespawnPlayerInput();
 
         cameraController.SwitchToTPSCamera();
         playerUI.UpdateHealthUI();
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_RespawnPlayerInput()
+    {
+        RPC_RespawnPlayer();
+    }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_RespawnPlayer()
     {
-        anim.SetNetTrigger(anim.AnimIDReset);
+        anim.ResetAnimation();
 
-        Vector3 respawnPosition = new Vector3(Random.Range(-5f, 5f), 3f, Random.Range(-5f, 5f));
-        transform.position = respawnPosition;
 
         health.ResetHealth();
+       
+        HitboxActivation(true);
+    }
+
+    private void HitboxActivation(bool value)
+    {
+        foreach(BodyHitbox bodyHitbox in bodyHitBoxList)
+        {
+            bodyHitbox.enabled = value;
+        }
     }
 
 

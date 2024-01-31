@@ -49,6 +49,13 @@ public class CharacterHealth : NetworkBehaviour
         changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
     }
 
+    private void OnDisable()
+    {
+        OnHeal = null;
+        OnDamage = null;
+        OnDeath = null;
+    }
+
     public override void FixedUpdateNetwork()
     {
         if(health != CurrentHealth)

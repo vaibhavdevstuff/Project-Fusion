@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
+using UnityEngine.SceneManagement;
 
 public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -78,13 +79,18 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
     
     }
 
+    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) 
+    {
+        SceneManager.LoadScene(0);
+        Destroy(gameObject);
+    }
+
 
     #region Rest of Network Runner Callbacks
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { Debug.Log("OnPlayerLeft"); }
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { Debug.Log("OnShutdown | " + shutdownReason); }
     public void OnConnectedToServer(NetworkRunner runner) { Debug.Log("OnConnectedToServer"); }
-    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason) { Debug.Log("OnDisconnectedFromServer"); }
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { Debug.Log("OnConnectRequest"); }
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { Debug.Log($"OnConnectFailed | {reason} | {remoteAddress}"); }
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
