@@ -44,6 +44,7 @@ public class NetworkSpawner : MonoBehaviour, INetworkRunnerCallbacks
         Debug.Log("OnPlayerJoined"); 
     
     }
+
     public void OnInput(NetworkRunner runner, NetworkInput input) 
     { 
         if(characterInput == null && NetworkPlayer.Local != null)

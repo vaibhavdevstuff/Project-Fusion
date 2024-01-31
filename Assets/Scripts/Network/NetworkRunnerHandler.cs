@@ -46,6 +46,9 @@ public class NetworkRunnerHandler : MonoBehaviour
     
     }
 
+    /// <summary>
+    /// Initializes the NetworkRunner for hosting or joining a session.
+    /// </summary>
     protected virtual Task InitializeNetworkRunner(NetworkRunner runner, GameMode gameMode, NetAddress netAddress, 
         SceneRef sceneRef, string sessionName, string lobbyID, Action<NetworkRunner> initialized)
     {
@@ -76,11 +79,17 @@ public class NetworkRunnerHandler : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Initiates the process of joining a lobby.
+    /// </summary>
     public void OnJoinLobby()
     {
         var task = JoinLobby();
     }
 
+    /// <summary>
+    /// Asynchronously joins a lobby and logs the result.
+    /// </summary>
     private async Task JoinLobby()
     {
         Debug.Log("Joining Lobby in Progress");
@@ -99,7 +108,9 @@ public class NetworkRunnerHandler : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// Creates a new session with the specified session name and scene index.
+    /// </summary>
     public void CreateSession(string sessionName, int sceneIndex)
     {
         Debug.Log($"Creating Session: {sessionName}");
@@ -111,6 +122,9 @@ public class NetworkRunnerHandler : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Joins a session using the provided SessionInfo.
+    /// </summary>
     public void JoinSession(SessionInfo sessionInfo)
     {
         Debug.Log($"Joining Session: {sessionInfo.Name}");

@@ -13,10 +13,6 @@ public class Projectile : MonoBehaviour
 
     private Vector3 startPosition;
     private Vector3 targetPosition;
-    private Vector3 hitNormal;
-
-    private bool showHitEffect = false;
-    private GameObject hitEffectPrefab;
 
     private float startTime;
     private float duration;
@@ -24,15 +20,9 @@ public class Projectile : MonoBehaviour
     /// <summary>
     /// Set where the projectile visual should land.
     /// </summary>
-    /// <param name="hitPosition">Position where projectile hit geometry</param>
-    /// <param name="hitNormal">Normal of the hit surface</param>
-    /// <param name="showHitEffect">Whether projectile impact should be displayed
-    /// (e.g. we don't want static impact effect displayed on other player's body)</param>
-    public void SetHit(Vector3 hitPosition, Vector3 hitNormal, bool showHitEffect)
+    public void SetHit(Vector3 hitPosition)
     {
         targetPosition = hitPosition;
-        this.showHitEffect = showHitEffect;
-        this.hitNormal = hitNormal;
     }
 
     private void Start()
@@ -65,27 +55,11 @@ public class Projectile : MonoBehaviour
 
     private void FinishProjectile()
     {
-        if (showHitEffect == false)
-        {
-            // No hit effect, destroy immediately.
-            Destroy(gameObject);
-            return;
-        }
-
-        // Stop updating projectile visual.
-        enabled = false;
-
-        if (ProjectileObject != null)
-        {
-            ProjectileObject.SetActive(false);
-        }
-
-        if (HitEffectPrefab != null)
-        {
-            Instantiate(HitEffectPrefab, targetPosition, Quaternion.LookRotation(hitNormal), transform);
-        }
-
-        Destroy(gameObject, LifeTimeAfterHit);
+        Destroy(gameObject);
     }
+
+
+
+
 }
 

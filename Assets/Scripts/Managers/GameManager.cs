@@ -13,6 +13,9 @@ public class GameManager : NetworkBehaviour
         Instance = this;
     }
 
+    /// <summary>
+    /// Disconnects from the server by destroying the NetworkSpawner and loading the main menu scene.
+    /// </summary>
     public void DisconnectFromServer()
     {
         if(Runner.IsServer)

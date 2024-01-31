@@ -18,8 +18,6 @@ public class PlayerController : NetworkBehaviour
     bool isGrounded;
     float finalAimValue;
 
-    private List<BodyHitbox> bodyHitBoxList = new List<BodyHitbox>();
-
     Vector2 moveAnimBlendSpeed;
 
     SimpleKCC simpleKCC;
@@ -30,7 +28,6 @@ public class PlayerController : NetworkBehaviour
     CameraController cameraController;
     UIPlayer playerUI;
     HurtEffect hurtEffect;
-    HitboxRoot hitboxRoot;
 
     NetworkInputData networkInput;
 
@@ -49,7 +46,6 @@ public class PlayerController : NetworkBehaviour
         cameraController = GetComponent<CameraController>();
         playerUI = GetComponentInChildren<UIPlayer>();
         hurtEffect = FindObjectOfType<HurtEffect>();
-        hitboxRoot = GetComponent<HitboxRoot>();
     }
 
     public override void Spawned()
@@ -73,12 +69,6 @@ public class PlayerController : NetworkBehaviour
 
         CursorManager.Instance?.HideCursor();
 
-        foreach(Hitbox hitbox in hitboxRoot.Hitboxes)
-        {
-            BodyHitbox bodyHitbox = hitbox as BodyHitbox;
-
-            bodyHitBoxList.Add(bodyHitbox);
-        }
     }
 
     private void SetLocalPlayer()
@@ -103,6 +93,9 @@ public class PlayerController : NetworkBehaviour
         AnimationUpdate();
     }
 
+    /// <summary>
+    /// Updates character animations based on player input and state.
+    /// </summary>
     private void AnimationUpdate()
     {
         //Movement
@@ -140,11 +133,17 @@ public class PlayerController : NetworkBehaviour
 
     }
 
+    /// <summary>
+    /// Checks if the player is grounded and updates the corresponding variable.
+    /// </summary>
     private void GroundedCheck()
     {
         isGrounded = simpleKCC.IsGrounded;        
     }
 
+    /// <summary>
+    /// Sets the vertical aiming value based on player input.
+    /// </summary>
     private void SetVerticleAim()
     {
         Vector2 pitchRotation = simpleKCC.GetLookRotation(true, false);
@@ -152,6 +151,9 @@ public class PlayerController : NetworkBehaviour
         finalAimValue = pitchRotation.x / 60f;
     }
 
+    /// <summary>
+    /// Moves the character based on input and updates animations accordingly.
+    /// </summary>
     private void MoveCharacter()
     {
         simpleKCC.AddLookRotation(-networkInput.LookDirection.y, networkInput.LookDirection.x, -30f, 60f);
@@ -194,25 +196,36 @@ public class PlayerController : NetworkBehaviour
 
     }
 
+    /// <summary>
+    /// Actions to be performed when the player takes damage.
+    /// </summary>
     private void OnDamage(float damage)
     {
         ShowHurtEffect();
     }
 
+    /// <summary>
+    /// Actions to be performed when the player dies.
+    /// </summary>
     private void OnDeath()
     {
         audioHandler.PlayDeathSound();
         anim.PlayDeathAnimation();
         cameraController.SwitchToDeathCamera();
-        HitboxActivation(false);
     }
 
+    /// <summary>
+    /// Displays a hurt effect when the player takes damage.
+    /// </summary>
     private void ShowHurtEffect()
     {
         if (Object.HasInputAuthority)
             hurtEffect.GotHurt();
     }
 
+    /// <summary>
+    /// Perform necessary Steps to Respawns the player
+    /// </summary>
     public void RespawnPlayer()
     {
         RPC_RespawnPlayerInput();
@@ -227,7 +240,6 @@ public class PlayerController : NetworkBehaviour
         RPC_RespawnPlayer();
     }
 
-
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void RPC_RespawnPlayer()
     {
@@ -235,17 +247,6 @@ public class PlayerController : NetworkBehaviour
 
 
         health.ResetHealth();
-       
-        HitboxActivation(true);
     }
-
-    private void HitboxActivation(bool value)
-    {
-        foreach(BodyHitbox bodyHitbox in bodyHitBoxList)
-        {
-            bodyHitbox.enabled = value;
-        }
-    }
-
 
 }

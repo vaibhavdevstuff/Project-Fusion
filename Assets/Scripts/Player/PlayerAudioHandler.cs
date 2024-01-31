@@ -16,13 +16,18 @@ public class PlayerAudioHandler : MonoBehaviour
     public AudioClip[] FootstepClips;
     public AudioClip[] GunShootClips;
 
-
-    public void OnAnimFootstepPlay() //Call From Animation Event
+    /// <summary>
+    /// Called from an Animation Event to play footstep sounds.
+    /// </summary>
+    public void OnAnimFootstepPlay()
     {
         PlayFootStepSound();
     }
 
-    public void PlayFootStepSound()
+    /// <summary>
+    /// Plays a random footstep sound.
+    /// </summary>
+    private void PlayFootStepSound()
     {
         if (FootstepAudioSource == null) { Debug.LogError("Audio Source not Found", gameObject); return; }
 
@@ -33,6 +38,9 @@ public class PlayerAudioHandler : MonoBehaviour
         PlaySound(audioToPlay, FootstepAudioSource);
     }
 
+    /// <summary>
+    /// Plays a random gunshot sound.
+    /// </summary>
     public void PlayGunShootSound()
     {
         if (GunAudioSource == null) { Debug.LogError("Audio Source not Found", gameObject); return; }
@@ -44,6 +52,9 @@ public class PlayerAudioHandler : MonoBehaviour
         PlaySound(audioToPlay, GunAudioSource);
     }
 
+    /// <summary>
+    /// Plays the reload sound.
+    /// </summary>
     public void PlayReloadSound()
     {
         if (CommonAudioSource == null) { Debug.LogError("Audio Source not Found", gameObject); return; }
@@ -53,6 +64,9 @@ public class PlayerAudioHandler : MonoBehaviour
         PlaySound(ReloadClip, CommonAudioSource);
     }
 
+    /// <summary>
+    /// Plays the death sound.
+    /// </summary>
     public void PlayDeathSound()
     {
         if (CommonAudioSource == null) { Debug.LogError("Audio Source not Found", gameObject); return; }
@@ -62,6 +76,9 @@ public class PlayerAudioHandler : MonoBehaviour
         PlaySound(DeathClip, CommonAudioSource);
     }
 
+    /// <summary>
+    /// Plays a specified audio clip on the provided audio source.
+    /// </summary>
     private void PlaySound(AudioClip clip, AudioSource source)
     {
         source.clip = clip;

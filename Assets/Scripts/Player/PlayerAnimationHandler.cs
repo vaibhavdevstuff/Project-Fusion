@@ -1,9 +1,9 @@
 using Fusion;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages player animations and provides methods for animation control.
+/// </summary>
 public class PlayerAnimationHandler : NetworkBehaviour
 {
     private Animator anim;
@@ -48,6 +48,9 @@ public class PlayerAnimationHandler : NetworkBehaviour
         SetStateIDs();
     }
 
+    /// <summary>
+    /// Sets the layer indices for different animation layers.
+    /// </summary>
     private void SetStateIDs()
     {
         LayerIDBase = anim.GetLayerIndex("Base Layer");
@@ -55,6 +58,9 @@ public class PlayerAnimationHandler : NetworkBehaviour
         LayerIDFireReload = anim.GetLayerIndex("Fire & Reload");
     }
 
+    /// <summary>
+    /// Sets the hash IDs for various animations.
+    /// </summary>
     private void SetAnimationIDs()
     {
         AnimIDMoveX = Animator.StringToHash("MoveX");
@@ -70,16 +76,25 @@ public class PlayerAnimationHandler : NetworkBehaviour
 
     #region Animation Set
 
+    /// <summary>
+    /// Sets a float parameter in the animator.
+    /// </summary>
     public void SetFloat(int HashID, float Value)
     {
         anim.SetFloat(HashID, Value);
     }
-    
+
+    /// <summary>
+    /// Sets a bool parameter in the animator.
+    /// </summary>
     public void SetBool(int HashID, bool Value)
     {
         anim.SetBool(HashID, Value);
     }
 
+    /// <summary>
+    /// Sets a trigger parameter in the animator, synchronizing the trigger across the network.
+    /// </summary>
     public void SetNetTrigger(int HashID)
     {
         if (Runner.IsServer)
@@ -96,10 +111,17 @@ public class PlayerAnimationHandler : NetworkBehaviour
 
     #region Animation Get
 
+    /// <summary>
+    /// Gets a float parameter from the animator.
+    /// </summary>
     public float GetFloat(int HashID)
     {
         return anim.GetFloat(HashID);
     }
+
+    /// <summary>
+    /// Gets a bool parameter from the animator.
+    /// </summary>
     public bool GetBool(int HashID)
     {
         return anim.GetBool(HashID);
@@ -107,11 +129,17 @@ public class PlayerAnimationHandler : NetworkBehaviour
 
     #endregion
 
+    /// <summary>
+    /// Sets the weight of a specified layer in the animator.
+    /// </summary>
     public void SetLayerWeight(int layerIndex, float weight)
     {
         anim.SetLayerWeight(layerIndex, weight);
     }
 
+    /// <summary>
+    /// Plays the death animation by adjusting layer weights and triggering the death trigger.
+    /// </summary>
     public void PlayDeathAnimation()
     {
         SetLayerWeight(LayerIDVerticalAim, 0f);
@@ -120,6 +148,9 @@ public class PlayerAnimationHandler : NetworkBehaviour
         SetNetTrigger(AnimIDDeath);
     }
 
+    /// <summary>
+    /// Resets the animation by adjusting layer weights and triggering the reset trigger.
+    /// </summary>
     public void ResetAnimation()
     {
         SetLayerWeight(LayerIDVerticalAim, 1f);

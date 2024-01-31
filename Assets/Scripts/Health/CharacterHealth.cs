@@ -7,25 +7,25 @@ using UnityEngine;
 using static Fusion.NetworkBehaviour;
 using UnityEngine.Splines;
 
+/// <summary>
+/// Manages the health and related events for a character in a networked environment.
+/// </summary>
 public class CharacterHealth : NetworkBehaviour
 {
-    
-    [SerializeField] [NaughtyAttributes.ReadOnly] private float health;
+    [SerializeField][NaughtyAttributes.ReadOnly] private float health;
 
     [Space]
     public float MaxHealth;
     public float MinHealth;
 
     [Space]
-    [SerializeField] private float invinsibleDurationAfterSpawn = 2f;
+    [SerializeField] private float invincibleDurationAfterSpawn = 2f;
 
-
-
-    [SerializeField] public bool IsInvinclible => invinsibleTimer.ExpiredOrNotRunning(Runner) == false;
+    [SerializeField] public bool IsInvincible => invincibleTimer.ExpiredOrNotRunning(Runner) == false;
     [SerializeField] public bool IsAlive => CurrentHealth > 0;
 
     [Networked] public float CurrentHealth { get; set; }
-    [Networked] private TickTimer invinsibleTimer { get; set; }
+    [Networked] private TickTimer invincibleTimer { get; set; }
 
     private float lastHealthValue;
 
@@ -35,15 +35,15 @@ public class CharacterHealth : NetworkBehaviour
 
     private ChangeDetector changeDetector;
 
+    #region Unity Callbacks
+
     public override void Spawned()
     {
         if (HasStateAuthority)
         {
             CurrentHealth = MaxHealth;
-
             lastHealthValue = CurrentHealth;
-
-            invinsibleTimer = TickTimer.CreateFromSeconds(Runner, invinsibleDurationAfterSpawn);
+            invincibleTimer = TickTimer.CreateFromSeconds(Runner, invincibleDurationAfterSpawn);
         }
 
         changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
@@ -58,12 +58,17 @@ public class CharacterHealth : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if(health != CurrentHealth)
+        if (health != CurrentHealth)
             health = CurrentHealth;
 
         CheckForNetworkPropsChanges();
     }
 
+    #endregion
+
+    /// <summary>
+    /// Checks for changes in network properties and invokes appropriate events.
+    /// </summary>
     private void CheckForNetworkPropsChanges()
     {
         foreach (var change in changeDetector.DetectChanges(this))
@@ -77,41 +82,50 @@ public class CharacterHealth : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Called when the current health property is changed.
+    /// </summary>
     private void OnCurrentHealthChanged()
     {
         if (lastHealthValue == CurrentHealth) return;
         if (!Runner.IsForward) return;
 
-        if (lastHealthValue > CurrentHealth )
+        if (lastHealthValue > CurrentHealth)
             InvokeDamageEvents(lastHealthValue - CurrentHealth);
 
         if (lastHealthValue < CurrentHealth)
             InvokeHealthEvents(CurrentHealth - lastHealthValue);
-        
+
         if (CurrentHealth == 0)
             InvokeDeathEvents();
 
         lastHealthValue = CurrentHealth;
-
     }
 
+    /// <summary>
+    /// Applies damage to the character.
+    /// </summary>
     public bool ApplyDamage(float damage)
     {
         if (CurrentHealth <= 0f)
             return false;
 
-        if (IsInvinclible)
+        if (IsInvincible)
             return false;
-        
+
         CurrentHealth -= damage;
 
         return true;
     }
 
+    /// <summary>
+    /// Adds healing to the character.
+    /// </summary>
     public bool AddHeal(float health)
     {
         if (CurrentHealth >= 0f)
             return false;
+
         if (CurrentHealth >= MaxHealth)
             return false;
 
@@ -120,38 +134,49 @@ public class CharacterHealth : NetworkBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Resets the character's health to the maximum.
+    /// </summary>
     public void ResetHealth()
     {
         CurrentHealth = MaxHealth;
     }
 
-
     #region Events
 
-    private void InvokeHealthEvents(float HealAmount)
+    /// <summary>
+    /// Invokes events related to healing.
+    /// </summary>
+    private void InvokeHealthEvents(float healAmount)
     {
         if (Runner.IsServer)
-            RPC_InvokeHealEvents(HealAmount);
+            RPC_InvokeHealEvents(healAmount);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    private void RPC_InvokeHealEvents(float HealAmount)
+    private void RPC_InvokeHealEvents(float healAmount)
     {
-        OnDamage?.Invoke(HealAmount);
+        OnHeal?.Invoke(healAmount);
     }
 
-    private void InvokeDamageEvents(float Damage)
+    /// <summary>
+    /// Invokes events related to taking damage.
+    /// </summary>
+    private void InvokeDamageEvents(float damage)
     {
         if (Runner.IsServer)
-            RPC_InvokeDamageEvents(Damage);
+            RPC_InvokeDamageEvents(damage);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    private void RPC_InvokeDamageEvents(float Damage)
+    private void RPC_InvokeDamageEvents(float damage)
     {
-        OnDamage?.Invoke(Damage);
+        OnDamage?.Invoke(damage);
     }
 
+    /// <summary>
+    /// Invokes events related to character death.
+    /// </summary>
     private void InvokeDeathEvents()
     {
         if (Runner.IsServer)
@@ -165,13 +190,4 @@ public class CharacterHealth : NetworkBehaviour
     }
 
     #endregion
-
-
-
-
-
-
-
-
-
 }

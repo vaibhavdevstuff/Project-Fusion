@@ -50,18 +50,19 @@ public class CameraController : NetworkBehaviour
             this.networkInput = networkInput;
         }
 
-        if (!health.IsAlive) return;
-
-        CameraAim();
-        CameraRotation();
-
     }
 
     private void LateUpdate()
     {
-        //CameraRotation();
+        if (!health.IsAlive) return;
+
+        CameraAim();
+        CameraRotation();
     }
 
+    /// <summary>
+    /// Adjusts camera FOV based on aiming input.
+    /// </summary>
     private void CameraAim()
     {
         float _fov = cinemachineVirtualCamera.m_Lens.FieldOfView;
@@ -78,18 +79,27 @@ public class CameraController : NetworkBehaviour
         cinemachineVirtualCamera.m_Lens.FieldOfView = _fov;
     }
 
+    /// <summary>
+    /// Rotates the camera based on player input.
+    /// </summary>
     private void CameraRotation()
     {
         Vector2 pitchRotation = kcc.GetLookRotation(true, false);
         cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(pitchRotation);
     }
 
+    /// <summary>
+    /// Disables both virtual cameras.
+    /// </summary>
     public void DisableCameras()
     {
         cinemachineVirtualCamera.gameObject.SetActive(false);
         virtualDeathCamera.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Switches to the third-person perspective (TPS) camera.
+    /// </summary>
     public void SwitchToTPSCamera()
     {
         if(!cmBrain) cmBrain = Camera.main.GetComponent<CinemachineBrain>();
@@ -101,6 +111,9 @@ public class CameraController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Switches to the death camera with a specified blend time.
+    /// </summary>
     public void SwitchToDeathCamera()
     {
         if (!cmBrain) cmBrain = Camera.main.GetComponent<CinemachineBrain>();

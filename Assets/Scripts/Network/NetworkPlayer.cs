@@ -1,8 +1,5 @@
 using Fusion;
 using Game.Utils;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
 {
@@ -13,22 +10,25 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     {
         if (Object.HasInputAuthority)
         {
+            // Set the local player instance.
             Local = this;
+
+            // Set rendering layer for local player.
             transform.SetRenderLayerInChildren(LayerManager.LocalPlayer, true);
 
+            // Set the object name with input authority tag.
             this.gameObject.name = $"Player {Object.Id} [InputAuthority]";
         }
         else
         {
+            // Set rendering layer for remote player.
             transform.SetRenderLayerInChildren(LayerManager.RemotePlayer, true);
 
-            //Disable Camera
+            // Disable Camera for remote players.
             CameraController cameraController = GetComponent<CameraController>();
             cameraController.DisableCameras();
-            //GameObject OtherPlayerVirtualCamera = cameraController.CinemachineVirtualCamera.gameObject;
-            //OtherPlayerVirtualCamera.name = $"{Object.Id} {OtherPlayerVirtualCamera.name}";
-            //OtherPlayerVirtualCamera.SetActive(false);
 
+            // Set the object name for remote players.
             this.gameObject.name = $"Player {Object.Id}";
         }
 

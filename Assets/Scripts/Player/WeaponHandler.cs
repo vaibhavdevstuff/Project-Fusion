@@ -56,6 +56,9 @@ public class WeaponHandler : NetworkBehaviour
         MyLayer = gameObject.layer;
     }
 
+    /// <summary>
+    /// Initializes the weapon with provided data.
+    /// </summary>
     private void SetupWeapon(WeaponData _weaponData)
     {
         if(_weaponData == null)
@@ -93,6 +96,9 @@ public class WeaponHandler : NetworkBehaviour
         //CheckForNetworkPropsChanges();
     }
 
+    /// <summary>
+    /// Processes player input for firing and reloading.
+    /// </summary>
     private void ProcessInput()
     {
         if (!health.IsAlive) return;
@@ -131,6 +137,9 @@ public class WeaponHandler : NetworkBehaviour
 
     }
 
+    /// <summary>
+    /// Initiates the firing sequence based on player input.
+    /// </summary>
     private void Fire(Vector3 ForwardVector)
     {
         if (IsReloading) 
@@ -138,23 +147,20 @@ public class WeaponHandler : NetworkBehaviour
         if (Time.time - lastFireTime < currentWeaponData.RateOfFire) 
             return;
 
-        StartCoroutine(CR_Firing());
+        IsFiring = true;
+
         ProcessHitScan(ForwardVector);
 
         lastFireTime = Time.time;
         
         currentAmmo--;
-    }
-
-    IEnumerator CR_Firing()
-    {
-        IsFiring = true;
-
-        yield return new WaitForSeconds(0.09f);        
 
         IsFiring = false;
     }
 
+    /// <summary>
+    /// Handles visual effects and audio when the weapon is fired.
+    /// </summary>
     private void OnFiring()
     {
         muzzleFlashParticle.Play();
@@ -165,6 +171,9 @@ public class WeaponHandler : NetworkBehaviour
         projectile.SetHit(HitPosition, Vector3.zero, false);
     }
 
+    /// <summary>
+    /// Performs a hit scan to determine if the weapon hits a target.
+    /// </summary>
     private void ProcessHitScan(Vector3 ForwardVector)
     {
         var hitOptions = HitOptions.IncludePhysX;
@@ -210,6 +219,9 @@ public class WeaponHandler : NetworkBehaviour
         fireCount++;
     }
 
+    /// <summary>
+    /// Applies damage to the hit target based on the weapon data.
+    /// </summary>
     private void ApplyDamage(Hitbox hitbox)
     {
         var enemyHealth = hitbox.Root.GetComponent<CharacterHealth>();
@@ -224,6 +236,9 @@ public class WeaponHandler : NetworkBehaviour
             return;
     }
 
+    /// <summary>
+    /// Initiates the reload process if conditions are met.
+    /// </summary>
     private void Reload()
     {
         if (IsReloading) 
