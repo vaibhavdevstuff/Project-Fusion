@@ -168,7 +168,7 @@ public class WeaponHandler : NetworkBehaviour
 
         var projectileObject = Instantiate(currentWeaponData.ProjectilePrefab, Gunpoint.position, Gunpoint.rotation);
         var projectile = projectileObject.GetComponent<Projectile>();
-        projectile.SetHit(HitPosition, Vector3.zero, false);
+        projectile.SetHit(HitPosition);
     }
 
     /// <summary>
